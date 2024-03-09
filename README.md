@@ -4,6 +4,9 @@ Welcome to my website! (Currently still under construction.) I'm an assistant pr
 
 My research and teaching is on both the mathematical and philosophical foundations of artificial intelligence. But I'm also interested in related disciplines like theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology. 
 
+# CV
+
+
 # Research
 
 
@@ -12,3 +15,6 @@ My research and teaching is on both the mathematical and philosophical foundatio
 
 # Contact
 
+I'm happy to get in touch! Just write me an email: _first name_ DOT _last name_ AT lmu DOT de
+
+Room 123 || Ludwigstr. 31 || 80539 München || Germany
