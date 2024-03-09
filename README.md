@@ -4,13 +4,20 @@ Welcome to my website! (Currently still under construction.) I'm an assistant pr
 
 My research and teaching is on both the mathematical and philosophical foundations of artificial intelligence. But I'm also interested in related disciplines like theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology. 
 
+
 # CV
+TBA
 
 
 # Research
 
+TBA
+
 
 # Teaching
+
+TBA
+
 
 
 # Contact
