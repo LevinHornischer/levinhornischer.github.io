@@ -2,14 +2,14 @@
 
 Welcome to my website! (Currently under construction.) I'm an assistant professor at the [Munich Center for Mathematical Philosophy (MCMP)](https://www.mcmp.philosophie.uni-muenchen.de/index.html) at [LMU Munich](https://www.lmu.de/en/). 
 
-My research and teaching is on both the mathematical and philosophical foundations of artificial intelligence. 
+My research and teaching is on the mathematical and philosophical foundations of artificial intelligence. 
 
-But I'm also interested in related disciplines like theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology. 
+I'm also interested in related disciplines like theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology. 
 
 
 # CV
 
-Before coming to Munich, I was a postdoctoral researcher at the [Institute for Logic, Language and Computation (ILLC)](https://www.illc.uva.nl/) at the [University of Amsterdam](https://www.uva.nl/en/home). There I also obtained my PhD with a dissertation on [Dynamical Systems via Domains](https://eprints.illc.uva.nl/id/eprint/2196/1/DS-2021-10.text.pdf), supervised by [Michiel van Lambalgen](https://www.uva.nl/en/profile/l/a/m.vanlambalgen/m.vanlambalgen.html) (Amsterdam) and [Franz Berto](https://research-portal.st-andrews.ac.uk/en/persons/franz-berto) (St Andrews). The project was funded by my NWO grant on [Foundations of Analogical Thinking](https://www.nwo.nl/en/projects/322-20-017).
+Before coming to Munich, I was a postdoctoral researcher at the [Institute for Logic, Language and Computation (ILLC)](https://www.illc.uva.nl/) at the [University of Amsterdam](https://www.uva.nl/en/home). There, I also obtained my PhD with a dissertation on [Dynamical Systems via Domains](https://eprints.illc.uva.nl/id/eprint/2196/1/DS-2021-10.text.pdf), supervised by [Michiel van Lambalgen](https://www.uva.nl/en/profile/l/a/m.vanlambalgen/m.vanlambalgen.html) (Amsterdam) and [Franz Berto](https://research-portal.st-andrews.ac.uk/en/persons/franz-berto) (St Andrews). The project was funded by my NWO grant on [Foundations of Analogical Thinking](https://www.nwo.nl/en/projects/322-20-017).
 
 
 # Research
