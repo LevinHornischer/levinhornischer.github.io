@@ -36,7 +36,7 @@ Before coming to Munich, I was a postdoctoral researcher at the [Institute for L
 * [University of Amsterdam](https://projects.illc.uva.nl/conceivability/The-Seminar/), ILLC. Logic of Conceivability Seminar. Stability: A novel interpretation of Fitch’s lemma. 2 October 2019.
 * [University of Vienna](https://kgs.logic.at/), Gödel’s Legacy Conference. Stability of foundational concepts: Gödelian arguments from general relativity. 25–27 July 2019.
 * [Utrecht University](https://tulips.sites.uu.nl/archive/), Department of Philosophy and Religious Studies. TULIPS. Analyzing the Behavior of Transition Systems. 2 April 2019.
-* [University of Amsterdam](https://archive.illc.uva.nl/alg-coalg/), ILLC. Algebra|Coalgebra Seminar. Trajectory domains: analyzing the behavior of transition systems. 13 March 2019. 
+* [University of Amsterdam](https://archive.illc.uva.nl/alg-coalg/), ILLC. Algebra/Coalgebra Seminar. Trajectory domains: analyzing the behavior of transition systems. 13 March 2019. 
 * [University of Oxford](https://www.cs.ox.ac.uk/seminars/2104.html), Department of Computer Science. OASIS: The Oxford Advanced Seminar on Informatic Structures. Trajectory domains: describing the behavior of computing systems. 30 November 2018.
 * [LMU Munich](https://www.mcmp.philosophie.uni-muenchen.de/events/weekly_talks_new/index.html), Munich Center for Mathematical Philosophy. Logic Colloquium. HYPE, Information, and Dynamical Systems. 8 November 2018.
 * [Czech Academy of Sciences](https://philevents.org/event/show/64034), Prague. Machine learning and explanation in cognitive science. Towards a domain-theoretic framework for describing the behavior of neural networks. 15 October 2018.
