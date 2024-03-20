@@ -64,7 +64,7 @@ Before coming to Munich, I was a postdoctoral researcher at the [Institute for L
 * _Rationality, Cognition and Reasoning_. University of Amsterdam. With Michiel van Lambalgen. Fall 2020, fall 2019, fall 2017. 
 * _Logic Programming and Learning_. University of Amsterdam. With Ronald de Haan. June 2019.
 
-* _MasterClass Logic_. University of Amsterdam, \textsc{ILLC}. Teaching (mathematical) logic to secondary school students and supervising their projects. 2017.
+* _MasterClass Logic_. University of Amsterdam, ILLC. Teaching (mathematical) logic to secondary school students and supervising their projects. 2017.
 
 
 
