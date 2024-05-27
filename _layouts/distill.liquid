@@ -106,6 +106,15 @@
       <d-appendix>
         <d-footnote-list></d-footnote-list>
         <d-citation-list></d-citation-list>
+        <!-- The following I added to replicate the 'citation' field of distill -->
+        {% if page.citation %}
+          <h3 id="citation">Citation</h3>
+            <p>If you found this helpful, you can cite this blogpost as</p>
+            <pre class="citation-appendix short">{{ site.last_name }}, {{ site.first_name }}{% if site.middle_name %} {{ site.middle_name }}{% endif %} ({{ page.date | date: "%b %Y" }}). {{ page.title }}. {% if site.title != 'blank' %}{{ site.title }}. {% endif %}{{ site.url }}.</pre>
+            <p>or in BibTeX format</p>
+            <pre class="citation-appendix long">@misc{ {{- site.last_name | downcase }}{{ page.date | date: "%Y" }}, author = { {{- site.last_name }}, {{ site.first_name }}{% if site.middle_name %} {{ site.middle_name }}{% endif -%} }, title = { {{- page.title -}} }, year = { {{- page.date | date: "%Y" -}} }, month = { {{- page.date | date: "%b" -}} }, url = { {{- site.url }}{{ page.url -}} }, }</pre>
+        {% endif %}  
+        <!-- End of addition -->
       </d-appendix>
 
       <d-bibliography src="{{ page.bibliography | prepend: '/assets/bibliography/' | relative_url }}"></d-bibliography>
@@ -121,5 +130,9 @@
     {% include scripts/bootstrap.liquid %}
     {% include scripts/analytics.liquid %}
     {% include scripts/progressBar.liquid %}
+    
+    
+    <!-- JavaScripts -->
+    {% include scripts/tikzjax.liquid %}
   </body>
 </html>

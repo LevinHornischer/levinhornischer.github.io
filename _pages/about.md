@@ -2,24 +2,29 @@
 layout: about
 title: about
 permalink: /
-subtitle: <a href='#'>Affiliations</a>. Address. Contacts. Moto. Etc.
+subtitle: 
+ 
 
 profile:
   align: right
-  image: prof_pic.jpg
+  image: my_profile_pic.jpg
   image_circular: false # crops the image to make it circular
-  more_info: >
-    <p>555 your office number</p>
-    <p>123 your address street</p>
-    <p>Your City, State 12345</p>
+  more_info: 
+    <p>Assistant professor<br>  
+    <a href='https://www.mcmp.philosophie.uni-muenchen.de/people/faculty/hornischer_levin/index.html'>MCMP</a>, <a href='https://www.philosophie.lmu.de/de/personen/kontaktseite/levin-hornischer-a7c95d99.html'>LMU Munich</a><br>  
+    Ludwigstr. 31 (room 123)<br>
+    80539 Munich<br> 
+    Germany</p>
 
-news: true # includes a list of news items
-selected_papers: true # includes a list of papers marked as "selected={true}"
+news: false # includes a list of news items
+selected_papers: false # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
 ---
 
-Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](http://reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+Welcome to my website! I'm an assistant professor at the <a href='https://www.mcmp.philosophie.uni-muenchen.de/index.html'>Munich Center for Mathematical Philosophy (MCMP)</a> at <a href='https://www.lmu.de/en/'>LMU Munich</a>.
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+My [research](/publications/) and [teaching](/teaching/) is mostly on the mathematical and philosophical foundations of artificial intelligence.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+I'm also interested in related disciplines such as theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology.
+
+Before coming to Munich, I was a postdoc at the [Institute for Logic, Language and Computation (ILLC)](https://www.illc.uva.nl/) at the [University of Amsterdam](https://www.uva.nl/en/home). There, I also obtained my PhD with a dissertation on [Dynamical Systems via Domains](https://eprints.illc.uva.nl/id/eprint/2196/1/DS-2021-10.text.pdf), supervised by [Michiel van Lambalgen](https://www.uva.nl/en/profile/l/a/m.vanlambalgen/m.vanlambalgen.html) (Amsterdam) and [Franz Berto](https://research-portal.st-andrews.ac.uk/en/persons/franz-berto) (St Andrews). The project was funded by my NWO grant on [Foundations of Analogical Thinking](https://www.nwo.nl/en/projects/322-20-017).
