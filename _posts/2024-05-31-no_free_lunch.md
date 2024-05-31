@@ -466,6 +466,7 @@ A(S) \restriction C \\ &=
 \rho^E_C (A) (S),
 \end{aligned}
 $$
+
 as needed.
 {% enddetails %}
 
