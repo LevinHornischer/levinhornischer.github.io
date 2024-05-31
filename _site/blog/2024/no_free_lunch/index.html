@@ -1,5 +1,335 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-05-31T11:42:09+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">blank</title><subtitle>The personal website of Levin Hornischer
-</subtitle><entry><title type="html">The No-Free-Lunch Theorem and Sheaf-Contextuality</title><link href="http://localhost:4000/blog/2024/no_free_lunch/" rel="alternate" type="text/html" title="The No-Free-Lunch Theorem and Sheaf-Contextuality" /><published>2024-05-31T00:00:00+02:00</published><updated>2024-05-31T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/no_free_lunch</id><content type="html" xml:base="http://localhost:4000/blog/2024/no_free_lunch/"><![CDATA[<p>The <em>No-Free-Lunch theorem</em> is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it <a href="https://levinhornischer.github.io/FoundAI/">my course</a>, and it got me wondering whether there are any links to another topic known as <em>contextuality</em>, i.e., situations where we have a family of data which is <em>locally consistent, but globally inconsistent</em> <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others.</p>
+<!DOCTYPE html>
+<html>
+  <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- Metadata, OpenGraph and Schema.org -->
+
+
+
+
+<!-- Standard metadata -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>
+  
+  
+    
+      The No-Free-Lunch Theorem and Sheaf-Contextuality | Levin Hornischer
+    
+  
+</title>
+<meta name="author" content="Levin Hornischer">
+<meta name="description" content="How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf">
+
+
+
+
+
+
+
+
+
+
+<!-- Bootstrap & MDB -->
+<link rel="stylesheet" href="/assets/css/bootstrap.min.css?a4b3f509e79c54a512b890d73235ef04">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/css/mdb.min.css" integrity="sha256-jpjYvU3G3N6nrrBwXJoVEYI/0zw8htfFnhT9ljN3JJw=" crossorigin="anonymous">
+
+<!-- Bootstrap Table -->
+
+
+<!-- Fonts & Icons -->
+<link defer rel="stylesheet" href="/assets/css/academicons.min.css?f0b7046b84e425c55f3463ac249818f5">
+<link defer rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&amp;display=swap">
+
+<!-- Code Syntax Highlighting -->
+<link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-github.css?591dab5a4e56573bf4ef7fd332894c99" media="" id="highlight_theme_light">
+
+
+
+<!-- Styles -->
+
+<!-- pseudocode -->
+
+
+
+  <link rel="shortcut icon" href="data:image/svg+xml,&lt;svg%20xmlns=%22http://www.w3.org/2000/svg%22%20viewBox=%220%200%20100%20100%22&gt;&lt;text%20y=%22.9em%22%20font-size=%2290%22&gt;%F0%9F%9A%B2&lt;/text&gt;&lt;/svg&gt;">
+
+<link rel="stylesheet" href="/assets/css/main.css?d41d8cd98f00b204e9800998ecf8427e">
+<link rel="canonical" href="http://localhost:4000/blog/2024/no_free_lunch/">
+
+<!-- Dark Mode -->
+<script src="/assets/js/theme.js?a5ca4084d3b81624bcfa01156dae2b8e"></script>
+
+  <link defer rel="stylesheet" href="/assets/css/jekyll-pygments-themes-native.css?5847e5ed4a4568527aa6cfab446049ca" media="none" id="highlight_theme_dark">
+  <script>
+    initTheme();
+  </script>
+
+
+<!-- GeoJSON support via Leaflet -->
+
+
+<!-- diff2html -->
+
+
+
+
+
+  <link defer rel="stylesheet" type="text/css" href="https://tikzjax.com/v1/fonts.css">
+
+
+    
+      <!-- Medium Zoom JS -->
+      <script defer src="https://cdn.jsdelivr.net/npm/medium-zoom@1.1.0/dist/medium-zoom.min.js" integrity="sha256-ZgMyDAIYDYGxbcpJcfUnYwNevG/xi9OHKaR/8GK+jWc=" crossorigin="anonymous"></script>
+      <script defer src="/assets/js/zoom.js?85ddb88934d28b74e78031fd54cf8308"></script>
+    
+    <!-- jQuery -->
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+    
+  
+    <!-- MathJax -->
+    <script type="text/javascript">
+      window.MathJax = {
+        tex: {
+          tags: 'ams',
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+        },
+      };
+    </script>
+    <script defer type="text/javascript" id="MathJax-script" src="https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  
+
+
+    <!-- Distill js -->
+    <script src="/assets/js/distillpub/template.v2.js"></script>
+    <script src="/assets/js/distillpub/transforms.v2.js"></script>
+    <script src="/assets/js/distillpub/overrides.js"></script>
+    
+  </head>
+
+  <body>
+<d-front-matter>
+    <script async type="text/json">
+      {
+            "title": "The No-Free-Lunch Theorem and Sheaf-Contextuality",
+            "description": "How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf",
+            "published": "May 31, 2024",
+            "authors": [
+              
+            ],
+            "katex": {
+              "delimiters": [
+                {
+                  "left": "$",
+                  "right": "$",
+                  "display": false
+                },
+                {
+                  "left": "$$",
+                  "right": "$$",
+                  "display": true
+                }
+              ]
+            }
+          }
+    </script>
+  </d-front-matter>
+
+  
+    <!-- Header -->
+    <header>
+  <!-- Nav Bar -->
+  <nav id="navbar" class="navbar navbar-light navbar-expand-sm fixed-top" role="navigation">
+    <div class="container">
+      
+        <a class="navbar-brand title font-weight-lighter" href="/">
+          
+            
+              <span class="font-weight-bold">Levin</span>
+            
+            
+            Hornischer
+          
+        </a>
+      
+      <!-- Navbar Toggle -->
+      <button class="navbar-toggler collapsed ml-auto" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar top-bar"></span>
+        <span class="icon-bar middle-bar"></span>
+        <span class="icon-bar bottom-bar"></span>
+      </button>
+
+      <div class="collapse navbar-collapse text-right" id="navbarNav">
+        <ul class="navbar-nav ml-auto flex-nowrap">
+          
+
+          <!-- About -->
+          <li class="nav-item ">
+            <a class="nav-link" href="/">about
+              
+            </a>
+          </li>
+
+          <!-- Other pages -->
+          
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+              
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/publications/">publications
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/talks/">talks
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/teaching/">teaching
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/cv/">cv
+                    
+                  </a>
+                </li>
+              
+            
+          
+            
+              
+                <li class="nav-item ">
+                  
+                  <a class="nav-link" href="/blog/">blog
+                    
+                  </a>
+                </li>
+              
+            
+          
+          
+            <!-- Toogle theme mode -->
+            <li class="toggle-container">
+              <button id="light-toggle" title="Change theme">
+                <i class="ti ti-sun-moon" id="light-toggle-system"></i>
+                <i class="ti ti-moon-filled" id="light-toggle-dark"></i>
+                <i class="ti ti-sun-filled" id="light-toggle-light"></i>
+              </button>
+            </li>
+          
+        </ul>
+      </div>
+    </div>
+  </nav>
+  
+    <!-- Scrolling Progress Bar -->
+    <progress id="progress" value="0">
+      <div class="progress-container">
+        <span class="progress-bar"></span>
+      </div>
+    </progress>
+  
+</header>
+
+
+    <!-- Content -->
+    <div class="post distill">
+      <d-title>
+        <h1>The No-Free-Lunch Theorem and Sheaf-Contextuality</h1>
+        <p>How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf</p>
+      </d-title>
+      
+
+      <d-article>
+        
+          <d-contents>
+            <nav class="l-text figcaption">
+              <h3>Contents</h3>
+              
+                <div>
+                  <a href="#statistical-learning-theory-in-a-nutshell">Statistical learning theory in a nutshell</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#the-no-free-lunch-theorem">The No-Free-Lunch theorem</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#sheaf-theoretic-contextuality">Sheaf-theoretic Contextuality</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#the-learner-presheaf">The Learner Presheaf</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#contextuality-of-pac-learning">Contextuality of PAC-learning</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#what-s-next-cohomology-compactness-category">What's next? Cohomology, Compactness, Category</a>
+                </div>
+                
+              
+                <div>
+                  <a href="#conclusion">Conclusion</a>
+                </div>
+                
+              
+            </nav>
+          </d-contents>
+        
+        <p>The <em>No-Free-Lunch theorem</em> is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it <a href="https://levinhornischer.github.io/FoundAI/" rel="external nofollow noopener" target="_blank">my course</a>, and it got me wondering whether there are any links to another topic known as <em>contextuality</em>, i.e., situations where we have a family of data which is <em>locally consistent, but globally inconsistent</em> <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others.</p>
 
 <p>In this post, I explore whether the impossibility of a universal learner can be seen as an instance of contextuality. The idea is:</p>
 
@@ -13,12 +343,18 @@
 <p>I’m not aware of work in this direction<d-footnote>Closest seems to come <d-cite key="Bowles2023"></d-cite>, but they don't use sheaves. If you know of some work, I'd be very happy to hear about it.</d-footnote>, but it promises to make applicable the powerful tools of contextuality to machine learning.</p>
 
 <ul class="task-list">
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />A quick introduction to statistical learning theory as the classic theory of machine learning</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />A statement of the No-Free-Lunch theorem saying that a universal learner doesn’t exist</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />An introduction to sheaf-theoretic contextuality</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />How to apply sheaf-theoretic contextuality to machine learning</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Make precise the main idea: learners on the different parts of the input space that cannot be glued to a learner on the whole input space</li>
-  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />Some intersting open questions</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>A quick introduction to statistical learning theory as the classic theory of machine learning</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>A statement of the No-Free-Lunch theorem saying that a universal learner doesn’t exist</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>An introduction to sheaf-theoretic contextuality</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>How to apply sheaf-theoretic contextuality to machine learning</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Make precise the main idea: learners on the different parts of the input space that cannot be glued to a learner on the whole input space</li>
+  <li class="task-list-item">
+<input type="checkbox" class="task-list-item-checkbox" disabled checked>Some intersting open questions</li>
 </ul>
 
 <h2 id="statistical-learning-theory-in-a-nutshell">Statistical learning theory in a nutshell</h2>
@@ -96,7 +432,7 @@ L_P( A(S) ) \geq \epsilon
 
 <p>For a given domain set $X$ and label set $Y$, there are many learners: they can vary in their hypothesis class (i.e., their inductive bias), and even if they agree on that, they can still generalize to different prediction rules from the very same dataset that they saw. So wouldn’t it be nice if there is a <em>universal</em> learner: one that, on any task, performs as well as any other learner? If so, we would get a ‘free lunch’ since we wouldn’t need to design, for each task, a learner specific to this task, but could always just blindly use the universal learner instead.</p>
 
-<p>At first sight we might hope for a positive answer: After all, there are universal Turing machines that can simulate any other Turing machine. So maybe we can build a universal learner that simulates other learners, collects their prediction rules, and aggregates those into a combined prediction rule, hoping for a <a href="https://en.wikipedia.org/wiki/Jury_theorem">wisdom of the crowd</a> effect. 
+<p>At first sight we might hope for a positive answer: After all, there are universal Turing machines that can simulate any other Turing machine. So maybe we can build a universal learner that simulates other learners, collects their prediction rules, and aggregates those into a combined prediction rule, hoping for a <a href="https://en.wikipedia.org/wiki/Jury_theorem" rel="external nofollow noopener" target="_blank">wisdom of the crowd</a> effect. 
 But—as spoiled by the section title (sorry!)—the No-Free-Lunch theorem says that such a universal learner cannot exist. In other words, for every learner, there is a task on which it fails, even though another learner succeeds.<d-footnote>For a discussion of interpretations of the No-Free-Lunch theorem—connecting to the philosophical problem of induction—, see <d-cite key="Sterkenburg2021"></d-cite></d-footnote></p>
 
 <p>Formally, the No-Free-Lunch theorem is stated as follows (in the version of <d-cite key="ShalevShwartz2014"></d-cite> on page 61):</p>
@@ -197,7 +533,7 @@ $C_1 = \lbrace a_1, b_1 \rbrace$,
 $C_2 = \lbrace a_2, b_1 \rbrace$,
 $C_3 = \lbrace a_2, b_2 \rbrace$, and
 $C_4 = \lbrace a_1, b_2 \rbrace$.
-For each $C_i$, we got a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same <a href="https://en.wikipedia.org/wiki/Marginal_distribution">marginals</a> on their overlap $C_i \cap C_j$.
+For each $C_i$, we got a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same <a href="https://en.wikipedia.org/wiki/Marginal_distribution" rel="external nofollow noopener" target="_blank">marginals</a> on their overlap $C_i \cap C_j$.
 Thus, we have a <em>locally consistent</em> family $\lbrace D_i \rbrace$ of observation data.
 However, this family of data is not <em>globally consistent</em>, because there cannot be a distribution $D$ on all measurements $\lbrace a_1 , a_2 , b_1 , b_2 \rbrace$ such that each $D_i$ is a marginalization of $D$ (i.e., $D$ is the joint distribution).</p>
 
@@ -601,7 +937,7 @@ L_S ( h' ).
 
 <p>A central theorem of logic is the <em>compactness</em> theorem: if every finite subset of a theory has a model, then the whole theory has a model. The contextuality that we have found here describes a sense in which learning is <em>not</em> compact: every finite subset of the input space has a PAC learner, but the whole input space does not have a PAC learner. This should be related to discussions about the (non-) compactness of learning (<d-cite key="Asilis2024"></d-cite>).</p>
 
-<p>More generally, it would be interesting to see how our discussion connects to other category-theoretic approaches to learners (<d-cite key="Spivak2022"></d-cite>) and machine learning more generally (<d-cite key="Shiebler2021"></d-cite> and <a href="https://github.com/bgavran/Category_Theory_Machine_Learning">here</a>).</p>
+<p>More generally, it would be interesting to see how our discussion connects to other category-theoretic approaches to learners (<d-cite key="Spivak2022"></d-cite>) and machine learning more generally (<d-cite key="Shiebler2021"></d-cite> and <a href="https://github.com/bgavran/Category_Theory_Machine_Learning" rel="external nofollow noopener" target="_blank">here</a>).</p>
 
 <h2 id="conclusion">Conclusion</h2>
 
@@ -609,8 +945,142 @@ L_S ( h' ).
 
 <p>We introduced statistical learning theory as the classic theory of machine learning, and we stated the No-Free-Lunch theorem saying that a universal learner cannot exist. Then we introduced sheaf-theoretic contextuality, aiming to apply it to statistical learning theory.</p>
 
-<p>We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space. We ended with some natural questions of where to go from here.</p>]]></content><author><name></name></author><category term="MachineLearning" /><category term="CategoryTheory" /><summary type="html"><![CDATA[How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf]]></summary></entry><entry><title type="html">Welcome!</title><link href="http://localhost:4000/blog/2024/welcome/" rel="alternate" type="text/html" title="Welcome!" /><published>2024-05-18T00:00:00+02:00</published><updated>2024-05-18T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/welcome</id><content type="html" xml:base="http://localhost:4000/blog/2024/welcome/"><![CDATA[<p>Hey there, and welcome to this blog! In this very first post, I figured I’d say a quick word about the <em>what &amp; why</em> of this blog, before writing the first post with actual content next.</p>
+<p>We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space. We ended with some natural questions of where to go from here.</p>
 
-<p>This blog, like many things, got started after having had a loose plan for a while, until some event provided the momentum to realize the plan. In this case, I was planning to start a blog for some time now, and the realizing event was updating my website. I used <a href="https://github.com/alshedivat/al-folio">this</a> beautiful template, which comes with great resources to host a blog.</p>
 
-<p>So, here it is! I plan to write—as the <a href="/blog/">blog’s name</a> suggests—on logic, broadly construed. I will cover topics from <a href="/publications/">my research</a> at the intersection of math, philosophy, and AI, or simply ideas that I want to learn more about. Let’s see where this will take us.</p>]]></content><author><name></name></author><summary type="html"><![CDATA[The first post on this blog]]></summary></entry></feed>
+      </d-article>
+
+      <d-appendix>
+        <d-footnote-list></d-footnote-list>
+        <d-citation-list></d-citation-list>
+        <!-- The following I added to replicate the 'citation' field of distill -->
+        
+          <h3 id="citation">Citation</h3>
+            <p>If you found this helpful, you can cite this blogpost as</p>
+            <pre class="citation-appendix short">Hornischer, Levin (May 2024). The No-Free-Lunch Theorem and Sheaf-Contextuality. http://localhost:4000.</pre>
+            <p>or in BibTeX format</p>
+            <pre class="citation-appendix long">@misc{hornischer2024, author = {Hornischer, Levin}, title = {The No-Free-Lunch Theorem and Sheaf-Contextuality}, year = {2024}, month = {May}, url = {http://localhost:4000/blog/2024/no_free_lunch/}, }</pre>
+          
+        <!-- End of addition -->
+      </d-appendix>
+
+      <d-bibliography src="/assets/bibliography/2024-05-30-no_free_lunch.bib"></d-bibliography>
+
+      
+      
+    </div>
+
+    <!-- Footer -->
+    
+  <footer class="fixed-bottom" role="contentinfo">
+    <div class="container mt-0">
+      © Copyright 2024
+      Levin
+      
+      Hornischer. Powered by <a href="https://jekyllrb.com/" target="_blank" rel="external nofollow noopener">Jekyll</a> with <a href="https://github.com/alshedivat/al-folio" rel="external nofollow noopener" target="_blank">al-folio</a> theme. Hosted by <a href="https://pages.github.com/" target="_blank" rel="external nofollow noopener">GitHub Pages</a>.
+
+      
+        <a href="http://localhost:4000/">Impressum</a>.
+      
+      
+    </div>
+  </footer>
+
+
+    <!-- Bootsrap & MDB scripts -->
+<script src="/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/assets/js/mdb.min.js"></script> -->
+<script src="https://cdn.jsdelivr.net/npm/mdbootstrap@4.20.0/js/mdb.min.js" integrity="sha256-NdbiivsvWt7VYCt6hYNT3h/th9vSTL4EDWeGs5SN3DA=" crossorigin="anonymous"></script>
+
+    
+
+
+    
+  <!-- Scrolling Progress Bar -->
+  <script type="text/javascript">
+    /*
+     * This JavaScript code has been adapted from the article
+     * https://css-tricks.com/reading-position-indicator/ authored by Pankaj Parashar,
+     * published on the website https://css-tricks.com on the 7th of May, 2014.
+     * Couple of changes were made to the original code to make it compatible
+     * with the `al-foio` theme.
+     */
+    const progressBar = $('#progress');
+    /*
+     * We set up the bar after all elements are done loading.
+     * In some cases, if the images in the page are larger than the intended
+     * size they'll have on the page, they'll be resized via CSS to accomodate
+     * the desired size. This mistake, however, breaks the computations as the
+     * scroll size is computed as soon as the elements finish loading.
+     * To account for this, a minimal delay was introduced before computing the
+     * values.
+     */
+    window.onload = function () {
+      setTimeout(progressBarSetup, 50);
+    };
+    /*
+     * We set up the bar according to the browser.
+     * If the browser supports the progress element we use that.
+     * Otherwise, we resize the bar thru CSS styling
+     */
+    function progressBarSetup() {
+      if ('max' in document.createElement('progress')) {
+        initializeProgressElement();
+        $(document).on('scroll', function () {
+          progressBar.attr({ value: getCurrentScrollPosition() });
+        });
+        $(window).on('resize', initializeProgressElement);
+      } else {
+        resizeProgressBar();
+        $(document).on('scroll', resizeProgressBar);
+        $(window).on('resize', resizeProgressBar);
+      }
+    }
+    /*
+     * The vertical scroll position is the same as the number of pixels that
+     * are hidden from view above the scrollable area. Thus, a value > 0 is
+     * how much the user has scrolled from the top
+     */
+    function getCurrentScrollPosition() {
+      return $(window).scrollTop();
+    }
+
+    function initializeProgressElement() {
+      let navbarHeight = $('#navbar').outerHeight(true);
+      $('body').css({ 'padding-top': navbarHeight });
+      $('progress-container').css({ 'padding-top': navbarHeight });
+      progressBar.css({ top: navbarHeight });
+      progressBar.attr({
+        max: getDistanceToScroll(),
+        value: getCurrentScrollPosition(),
+      });
+    }
+    /*
+     * The offset between the html document height and the browser viewport
+     * height will be greater than zero if vertical scroll is possible.
+     * This is the distance the user can scroll
+     */
+    function getDistanceToScroll() {
+      return $(document).height() - $(window).height();
+    }
+
+    function resizeProgressBar() {
+      progressBar.css({ width: getWidthPercentage() + '%' });
+    }
+    // The scroll ratio equals the percentage to resize the bar
+    function getWidthPercentage() {
+      return (getCurrentScrollPosition() / getDistanceToScroll()) * 100;
+    }
+  </script>
+
+
+    
+    
+    <!-- JavaScripts -->
+    
+  <script defer src="https://tikzjax.com/v1/tikzjax.js"></script>
+
+
+  
+</body>
+</html>
