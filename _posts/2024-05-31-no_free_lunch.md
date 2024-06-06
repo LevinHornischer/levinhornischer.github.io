@@ -25,7 +25,7 @@ tikzjax: true
 ---
 
 
-The *No-Free-Lunch theorem* is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it [my course](https://levinhornischer.github.io/FoundAI/), and it got me wondering whether there are any links to another topic known as *contextuality*, i.e., situations where we have a family of data which is *locally consistent, but globally inconsistent* <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others. 
+The *No-Free-Lunch theorem* is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it in [my course](https://levinhornischer.github.io/FoundAI/), and it made me wonder whether there are any links to another topic known as *contextuality*, i.e., situations where we have a family of data which is *locally consistent, but globally inconsistent* <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others. 
 
 In this post, I explore whether the impossibility of a universal learner can be seen as an instance of contextuality. The idea is:
  
@@ -34,7 +34,7 @@ In this post, I explore whether the impossibility of a universal learner can be 
 
 We make this precise by defining what we will call the *learner presheaf* and by providing a locally consistent family of learners (i.e., compatible sections of the presheaf) that cannot be globally consistent (i.e., the presheaf does not have global sections). 
 
-I'm not aware of work in this direction<d-footnote>Closest seems to come <d-cite key="Bowles2023"></d-cite>, but they don't use sheaves. If you know of some work, I'd be very happy to hear about it.</d-footnote>, but it promises to make applicable the powerful tools of contextuality to machine learning.
+I'm not aware of work in this specific direction<d-footnote>Closest seems to come <d-cite key="Bowles2023"></d-cite>, but they don't use sheaves. If you know of some work, I'd be very happy to hear about it.</d-footnote>, but it promises an application of the powerful contextuality tools to machine learning.
 
 - [x] A quick introduction to statistical learning theory as the classic theory of machine learning
 - [x] A statement of the No-Free-Lunch theorem saying that a universal learner doesn't exist
@@ -50,14 +50,14 @@ I'm not aware of work in this direction<d-footnote>Closest seems to come <d-cite
 Statistical learning theory was developed as the theory of machine learning <d-cite key="ShalevShwartz2014"></d-cite>. It studies when a learner can make correct predictions for future inputs after having seen finitely many past inputs together with their correct prediction (aka supervised learning). 
 
 <div class="fake-img l-body-outset">
-<p><em>Just a quick comment on the broader context. There is some disconnect between theory and practice: this theory does not fully account for the practices of modern deep learning. For further reading on this, see, e.g., <d-cite key="Berner2022"></d-cite> or <d-cite key="Belkin2021"></d-cite>. But this topic, together with the many other approaches to a theory of machine learning, is a something for another occasion. Here we will continue and see what the classic theory has to say.</em></p>
+<p><em>Just a quick comment on the broader context. There is some disconnect between theory and practice: this theory does not fully account for the practices of modern deep learning. For further reading on this, see, e.g., <d-cite key="Berner2022"></d-cite> or <d-cite key="Belkin2021"></d-cite>. But this topic, together with the many other approaches to a theory of machine learning, is something for another occasion. Here we will continue and see what the classic theory has to say.</em></p>
 </div>
 
 
 
 Let's illustrate such a learner with an example. The learner gets a dataset $S$ consisting of, say, 100,000 pairs $(x,y)$ with a pixel image $x$ of an animal and the label $y$ which is $1$ or $0$ depending on whether the depicted animal is a dog or not. Based on that, the learner has to come up with a general prediction rule $h$ that takes as input an image $x$ (whether already seen or new) and produces as output a label $h(x) = y$ describing whether the learner takes this image to depict a dog. If our learner is a neural network, it updates its weights according to the backpropagation algorithm as it goes through batches of the dataset. Whatever the setting of weights it arrives at after this training process, it will compute a function $h$ mapping inputs $x$ to outputs $h(x)$.<d-footnote>Technically, the network maps $x$ to logits, which then can be turned into probabilities, and the output is taken to be $1$ in a given dimension once the corresponding probability exceeds $0.5$.</d-footnote>
 
-Typically, the learner is biased—or, positively formulated, has prior knowledge—and considers only certain functions from inputs to outputs to be potential prediction rules. (This helps avoiding overfitting to the training data, since with fewer prediction rules there are fewer options that fit the data too well.) Our neural network, for example, will only consider those functions that can be realized with some setting of weights.<d-footnote>By the universal approximation theorems the functions that are realized by neural networks can, however, approximate any given continuous function (e.g., from inputs to logits) arbitrarily well.</d-footnote> The set of functions that the learner considers is called the *hypothesis class* or its *inductive bias* (i.e., its bias when doing what, outside of math, is called induction: namely, choosing a general rule after seeing finitely many examples).
+Typically, the learner is biased—or, positively formulated, has prior knowledge—and considers only certain functions from inputs to outputs to be potential prediction rules. (This helps to avoid overfitting to the training data, since with fewer prediction rules there are fewer options that fit the data too well.) Our neural network, for example, will only consider those functions that can be realized with some set of weights.<d-footnote>By the universal approximation theorems the functions that are realized by neural networks can, however, approximate any given measurable function (e.g., from inputs to logits) arbitrarily well.</d-footnote> The set of functions that the learner considers is called the *hypothesis class* or its *inductive bias* (i.e., its bias when doing what, outside of math, is called induction: namely, choosing a general rule after seeing finitely many examples).
 
 
 
@@ -77,12 +77,12 @@ In our example, this was the set of functions $h : X \to Y$ that the neural netw
 
 * We have a function $A : (X \times Y)^* \to H$ (the *learner*), which maps a *dataset* $S$ (i.e., a finite sequence of input-output pairs) to a *prediction rule* $h = A(S)$. 
 
-In our example, $A(S)$ is the function that the neural network realizes with the weights obtained after initializing the weights and then doing, say, 10 repetitions (aka epochs) of going through batches of $S$ and updating the weights with backpropagation (we ignore that this is not a fully deterministic process).
+In our example, $A(S)$ is the function that the neural network realizes with the weights obtained after initialization and then doing, say, 10 repetitions (aka epochs) of going through batches of $S$ and updating the weights with backpropagation (we ignore that this is not a fully deterministic process).
 
-The last definition we need is what it means for a learner to be 'good', i.e., to produce correct prediction rules. Statistical learning theory accounts for the fact that the learners operate in a statistical and noisy environment. So rather than saying that a learner will surely be completely correct, we focus on when a learner will *p*robably be *a*pproximately *c*orrect---aka a PAC learner. For such a learner, there should only be a small probability of $\delta$ that the learner comes up with a prediction rule with more than $\epsilon$-much error.
+The last definition we need is what it means for a learner to be 'good', i.e., to produce correct prediction rules. Statistical learning theory accounts for the fact that the learners operate in a stochastic and noisy environment. So rather than saying that a learner will surely be completely correct, we focus on when a learner will *p*robably be *a*pproximately *c*orrect---aka a PAC learner. For such a learner, there should only be a small probability of $\delta$ that the learner comes up with a prediction rule with an error of more than $\epsilon$.
 
 
-More precisely, for any confidence parameter $\delta$ and accuracy parameter $\epsilon$, there should be a number of samples $m$, such that if the learner takes a set $S$ of $m$-many input-output samples of the world (which is governed by a probability distribution $P$ that the learner does not know), then, with probability at least $1 - \delta$ over the choice of samples, the learner's prediction $A(S)$ has an error of less than $\epsilon$, provided there is a correct hypothesis in the first place. Here the error of a function $h : X \to Y$ is measured as the probability that the function does not produce the right label:  
+More precisely, for any confidence level $\delta$ and accuracy $\epsilon$, there should be a number of samples $m$, such that if the learner takes a set $S$ of $m$-many input-output samples of the world (which is governed by a probability distribution $P$ that the learner does not know), then, with probability at least $1 - \delta$ over the choice of samples, the learner's prediction $A(S)$ has an error of less than $\epsilon$, provided there is a correct hypothesis in the first place. Here the error of a function $h : X \to Y$ is measured as the probability that the function does not produce the right label:  
 
 $$
 L_P (h) := P \big( \{
@@ -92,7 +92,7 @@ h(x) \neq y
 \} \big).
 $$
 
-This is also called the *true error* (which is inaccessible to the learner) to contrast it with the *empirical error* (which is accessible to the learner), that is defined as difference of prediction relative to a given dataset $S$:
+This is also called the *true error* (which is not accessible to the learner) to contrast it with the *empirical error* (which is accessible to the learner). The empirical error, which we will use later, is defined as the percentage of misprediction on a given dataset $S$:
 
 $$
 L_S (h) := \frac{1}{|S|} \big\lbrace
@@ -121,7 +121,7 @@ With this framework of statistical learning theory, we can move to one of its fu
 
 ## The No-Free-Lunch theorem
 
-For a given domain set $X$ and label set $Y$, there are many learners: they can vary in their hypothesis class (i.e., their inductive bias), and even if they agree on that, they can still generalize to different prediction rules from the very same dataset that they saw. So wouldn't it be nice if there is a *universal* learner: one that, on any task, performs as well as any other learner? If so, we would get a 'free lunch' since we wouldn't need to design, for each task, a learner specific to this task, but could always just blindly use the universal learner instead. 
+For a given domain set $X$ and label set $Y$, there are many learners: they can have different hypothesis classes (i.e., their inductive bias differes), and even if they agree on that, they can still generalize to different prediction rules from the very same dataset that they saw. So wouldn't it be nice if there was a *universal* learner: one that, on any task, performs as well as any other learner? If so, we would get a 'free lunch' since we wouldn't need to design, for each task, a learner specific to this task, but could always just blindly use the universal learner instead.
 
 At first sight we might hope for a positive answer: After all, there are universal Turing machines that can simulate any other Turing machine. So maybe we can build a universal learner that simulates other learners, collects their prediction rules, and aggregates those into a combined prediction rule, hoping for a [wisdom of the crowd](https://en.wikipedia.org/wiki/Jury_theorem) effect. 
 But—as spoiled by the section title (sorry!)—the No-Free-Lunch theorem says that such a universal learner cannot exist. In other words, for every learner, there is a task on which it fails, even though another learner succeeds.<d-footnote>For a discussion of interpretations of the No-Free-Lunch theorem—connecting to the philosophical problem of induction—, see <d-cite key="Sterkenburg2021"></d-cite></d-footnote>
@@ -220,16 +220,16 @@ Both sit at opposite sides of a box, inside of which is a mystery system. Both h
 
 We now wonder: what do these observations say about our mystery system? (We cannot dismiss the example as imaginary, because it is physically realizable according to quantum mechanics <d-cite key="Abramsky2015"></d-cite>.)
 
-Naturally, we would say that, at any given time, the system is in some state, $s$, and this state determines the outcomes of each of the measurements $a_1, a_2, b_1, b_2$ if they are performed on the system in this state. There is some probability distribution on the set of all states of the system, describing how likely it is to find the system in a given state (and of course this distribution is independent of whatever Alice and Bob do). So the measurements measure objective properties of the system, which obtain independently of which measurements we perform; and the distributions over the measurement outcomes come from the distribution over system states. 
+Naturally, we would say that, at any given time, the system is in some state, $s$, and this state determines the outcomes of each of the measurements $a_1, a_2, b_1, b_2$ if they are performed on the system in this state. There is some probability distribution on the set of all states of the system, describing how likely it is to find the system in a given state (and of course this distribution is independent of whatever Alice and Bob do). So the measurements probe objective properties of the system, which obtain independently of which measurements we perform; and the distributions over the measurement outcomes come from the distribution over system states. 
 
 But from our observations, we must conclude that our system cannot be of such a form! No probability measure on the state space of our system can give rise to the observed distributions on the measurements. 
 
-We can say this more precisely with the 'locally consistent but globally inconsistent' terminology. We considered above four choices of measurements: 
+We can say this more precisely in terms of 'locally consistent but globally inconsistent'. Above, we considered four choices of measurements: 
 $C_1 = \lbrace a_1, b_1 \rbrace$, 
 $C_2 = \lbrace a_2, b_1 \rbrace$,
 $C_3 = \lbrace a_2, b_2 \rbrace$, and
 $C_4 = \lbrace a_1, b_2 \rbrace$.
-For each $C_i$, we got a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same [marginals](https://en.wikipedia.org/wiki/Marginal_distribution) on their overlap $C_i \cap C_j$.
+For each $C_i$, we obtained a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same [marginals](https://en.wikipedia.org/wiki/Marginal_distribution) on their overlap $C_i \cap C_j$.
 Thus, we have a *locally consistent* family $\lbrace D_i \rbrace$ of observation data.
 However, this family of data is not *globally consistent*, because there cannot be a distribution $D$ on all measurements $\lbrace a_1 , a_2 , b_1 , b_2 \rbrace$ such that each $D_i$ is a marginalization of $D$ (i.e., $D$ is the joint distribution).
 
@@ -261,7 +261,7 @@ b_2
 \neg a_1.
 $$
 
-So if one of the events obtains, one of the remaining ones cannot obtain, so
+So if one of the four events obtains, then one of the remaining three cannot obtain, so
 
 $$ P(E_4) \leq 
 P( \bigcup_{i = 1}^3 E_i^c ) \leq
@@ -285,7 +285,7 @@ Abramsky <d-cite key="Abramsky2017"></d-cite> (on page 9) analyzes this situatio
 
 
 
-So our system cannot be of the form we initially thought and *somehow* the properties of our system depend on the choice of measurements that we perform, i.e., the measurement context. How exactly is formalized with the sheaf-theoretic approach to contextuality. This goes as follows (e.g. <d-cite key="Abramsky2017"></d-cite>). 
+So our system cannot be of the form we initially thought it was. Hence *somehow* the properties of our system depend on the choice of measurements that we perform, i.e., the measurement context. How exactly is formalized with the sheaf-theoretic approach to contextuality. This goes as follows (e.g. <d-cite key="Abramsky2017"></d-cite>). 
 
 * We have a set $X$ of *variables* (aka measurements, features, observations, etc.). 
 
@@ -496,7 +496,7 @@ Thus, we also get a 'simple combinatorial condition on the cover' characterizing
 
 ### Local consistency
 
-How would locally consistent data look like? It is a family of PAC learners, one for each finite subsets $C$ of $X$,
+How would locally consistent data look like? It is a family of PAC learners, one for each finite subset $C$ of $X$,
 
 $$\lbrace A_C \in P_H (C) : C \in \mathcal{C} \rbrace$$
 
@@ -622,7 +622,7 @@ L_S ( h' ).
 $$
 {% enddetails %}
 
-So we see that PAC-learnability really exhibits contextuality: we can have locally consistent learners covering the whole input space but which cannot be glued together to a single, globally consistent learner. 
+So we see that PAC-learnability really exhibits contextuality: We can have locally consistent learners covering the whole input space, but they cannot be glued together to one globally consistent learner.
 
 
 
@@ -631,7 +631,7 @@ So we see that PAC-learnability really exhibits contextuality: we can have local
 ## What's next? Cohomology, Compactness, Category
 
 
-The obvious next step is to apply the rich and general theory of sheaf-theoretic contextuality to the theory of machine learning! Specifically, the next step, like in <d-cite key="Abramsky2015"></d-cite> (especially section 5), is to understand the obstructions we face when wanting to extend a local section to a global one. Here, these are the obstructions that are at play in the No-Free-Lunch theorem when trying to extend a learner working on a local part of the input space to working on the whole input space. The tools of *cohomology* (specifically Čech cohomology) are used for this. But that's for another occasion.
+The obvious next step is to apply the rich and general theory of sheaf-theoretic contextuality to the theory of machine learning! Specifically, the next step, as in <d-cite key="Abramsky2015"></d-cite> (especially section 5), is to understand the obstructions we face when wanting to extend a local section to a global one. Here, these are the obstructions that are at play in the No-Free-Lunch theorem when trying to extend a learner working on a local part of the input space to working on the whole input space. The tools of *cohomology* (specifically Čech cohomology) are used for this. But that's for another occasion.
 
 
 A central theorem of logic is the *compactness* theorem: if every finite subset of a theory has a model, then the whole theory has a model. The contextuality that we have found here describes a sense in which learning is *not* compact: every finite subset of the input space has a PAC learner, but the whole input space does not have a PAC learner. This should be related to discussions about the (non-) compactness of learning (<d-cite key="Asilis2024"></d-cite>).
@@ -644,11 +644,11 @@ More generally, it would be interesting to see how our discussion connects to ot
 
 ## Conclusion
 
-Sorry, this post got rather long. But let's quickly recap what we've seen. 
+So there are many directions to explore next, but, for now, let's quickly recap what we've seen. 
 
 We introduced statistical learning theory as the classic theory of machine learning, and we stated the No-Free-Lunch theorem saying that a universal learner cannot exist. Then we introduced sheaf-theoretic contextuality, aiming to apply it to statistical learning theory. 
 
-We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space. We ended with some natural questions of where to go from here.
+We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space.
 
 
 
