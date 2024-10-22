@@ -7,6 +7,8 @@ nav: true
 nav_order: 3
 ---
 
+
+* [University of Groningen](https://www.rug.nl/). Universal Analog Computation: Fraïssé limits of dynamical systems. 25 September 2024.
 * [Logic and AI](https://ias.uva.nl/content/events/2024/07/logic-and-ai.html?origin=PRy12xnsQemXLkKbh0An2g) (Institute for Advanced Study, University of Amsterdam). Semantics for Non-symbolic Computation: Including Neural Networks and Analog Computers. 16 July 2024.
 * [Topology, Algebra, and Categories in Logic (TACL) 2024](https://iiia.csic.es/tacl2024/) (University of Barcelona). Semantics for Non-symbolic Computation: Including Neural Networks and Analog Computers. 16 July 2024.
 

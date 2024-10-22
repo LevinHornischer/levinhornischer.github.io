@@ -11,10 +11,10 @@ nav_order: 4
 
 
 
-* [Advanced Topics in the Foundations of AI](https://levinhornischer.github.io/FoundAI/). LMU Munich. Research seminar for master's students. Summer 2023, summer 2024.
-* [Philosophy and Theory of Artificial Intelligence](https://github.com/LevinHornischer/PhilTheoAI). LMU Munich. Research seminar for master's students. Winter 2023/24.
-* [Philosophical Logic](https://levinhornischer.github.io/PhilLogic/). LMU Munich. Research seminar for master's students. Summer 2024, summer 2023.
-* [Duality Theory: Connecting Logic, Algebra, and Topology](https://github.com/LevinHornischer/DualityTheory). LMU Munich. Research seminar for master's students. Winter 2023/24.
+* [Advanced Topics in the Foundations of AI](https://levinhornischer.github.io/FoundAI/). LMU Munich. Master in Logic and Philosophy of Science. Summer 2023, summer 2024, summer 2025.
+* [Philosophy and Theory of Artificial Intelligence](https://levinhornischer.github.io/PhilTheoAI/). LMU Munich. Master in Logic and Philosophy of Science. Winter 2023/24, winter 2024/25.
+* [Philosophical Logic](https://levinhornischer.github.io/PhilLogic/). LMU Munich. Master in Logic and Philosophy of Science. Summer 2023, summer 2024, summer 2025.
+* [Duality Theory: Connecting Logic, Algebra, and Topology](https://levinhornischer.github.io/DualityTheory/). LMU Munich. Master in Logic and Philosophy of Science. Winter 2023/24, winter 2024/25.
 
 
 * _Rationality, Cognition and Reasoning_. University of Amsterdam. Research seminar for master's students. Spring 2022. 

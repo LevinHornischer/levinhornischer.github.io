@@ -306,7 +306,7 @@ scholar:
   group_by: type, year # Each publication is first order by its type, then within a type its sorted by year
   group_order: ascending, descending # Types are order descendingly by the order specified in the next line, years are also ordered decendingly
   type_order: [unpublished, article, inproceedings, phdthesis, masterthesis] #add more types if needed
-  type_names: {unpublished: Pre-Prints/In Preparation} # Heading for the 'unpublished' type
+  type_names: {unpublished: Pre-Prints} # Heading for the 'unpublished' type
   
 # Display different badges withs stats for your publications
 enable_publication_badges:
