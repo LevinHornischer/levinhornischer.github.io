@@ -7,13 +7,14 @@ nav: true
 nav_order: 3
 ---
 
-
+* [Research Seminar in Decision and Action Theory](https://www.mcmp.philosophie.uni-muenchen.de/index.html) (MCMP, LMU Munich). Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks. 13 November 2024.
+ * [University of Cambridge, Department of Applied Mathematics and Theoretical Physics](https://www.damtp.cam.ac.uk/). Domain-theoretic Semantics for Dynamical Systems: From Analog Computers to Neural Networks. 7 November 2024. 
 * [University of Groningen](https://www.rug.nl/). Universal Analog Computation: Fraïssé limits of dynamical systems. 25 September 2024.
 * [Logic and AI](https://ias.uva.nl/content/events/2024/07/logic-and-ai.html?origin=PRy12xnsQemXLkKbh0An2g) (Institute for Advanced Study, University of Amsterdam). Semantics for Non-symbolic Computation: Including Neural Networks and Analog Computers. 16 July 2024.
 * [Topology, Algebra, and Categories in Logic (TACL) 2024](https://iiia.csic.es/tacl2024/) (University of Barcelona). Semantics for Non-symbolic Computation: Including Neural Networks and Analog Computers. 16 July 2024.
 
 
-* [Work in Progress Talk Series](https://www.mcmp.philosophie.uni-muenchen.de/events/weekly_talks_new/index.html) (LMU Munich). The Logic of Dynamical Systems is Relevant. 7 December 2023.
+* [Work in Progress Talk Series](https://www.mcmp.philosophie.uni-muenchen.de/events/weekly_talks_new/index.html) (MCMP, LMU Munich). The Logic of Dynamical Systems is Relevant. 7 December 2023.
 * [Machine Learning meets Mathematical Philosophy](https://www.mcmp.philosophie.uni-muenchen.de/events/archive/2023_workshops_conferences/mcml/index.html) (LMU Munich). Semantics for Sub-symbolic Computation. 16 June 2023.
 
 * [Colloquium Logicum 2022 of the DVMLG](http://www.dvmlg.de/) (University of Konstanz). Dynamical Systems via Domains: Semantics for Non-symbolic Computation. 26–28 September 2022. 
