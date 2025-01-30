@@ -5,7 +5,7 @@ inline: true
 related_posts: false
 ---
 
-A new paper with [Franz Berto](https://www.st-andrews.ac.uk/philosophy/people/fb96) is forthcoming in _Mind_: [The Logic of Dynamical Systems Is Relevant](philpapers.org/rec/HORTLO-15).
+A new paper with [Franz Berto](https://www.st-andrews.ac.uk/philosophy/people/fb96) is forthcoming in _Mind_: [The Logic of Dynamical Systems Is Relevant](https://philpapers.org/rec/HORTLO-15).
 
 
  
