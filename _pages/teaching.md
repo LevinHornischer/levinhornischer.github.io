@@ -10,6 +10,7 @@ nav_order: 4
 
 
 
+* Guest lecture in the _Logic Spring Seminar (PHIL 359)_. Stanford University. Cotaught by Johan van Benthem and Thomas Icard. Spring 2025.
 
 * [Advanced Topics in the Foundations of AI](https://levinhornischer.github.io/FoundAI/). LMU Munich. Master in Logic and Philosophy of Science. Summer 2023, summer 2024, summer 2025.
 * [Philosophy and Theory of Artificial Intelligence](https://levinhornischer.github.io/PhilTheoAI/). LMU Munich. Master in Logic and Philosophy of Science. Winter 2023/24, winter 2024/25.

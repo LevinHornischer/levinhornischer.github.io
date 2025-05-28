@@ -7,6 +7,16 @@ nav: true
 nav_order: 3
 ---
 
+
+
+
+* [Formal Epistemology Meets Philosophy of AI](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/formal_epistemology/index.html) (MCMP, LMU Munich). Explaining Neural Networks with Reasons. 5--6 July 2025.
+* [LMU Munich](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/hornischer_20250612/index.html), Munich Center for Mathematical Philosophy. Logic Colloquium. Universal analog computation. 12 June 2025.
+* [Epistemology and Theory of Machine Learning](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/epistemology_2025/index.html) (MCMP, LMU Munich). Robustness and Trustworthiness in AI: A No-Go Result From Formal Epistemology. 30--31 May 2025.
+* [Social Choice for AI Ethics and Safety 2025 (SC4AI'25)](https://sites.google.com/view/sc4ai/workshops/sc4ai25). Part of the 24th International Conference on Autonomous Agents and Multiagent Systems (AAMAS 2025) in Detroit, Michigan, USA. Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks. 19 May 2025.
+* NTU-LMU Workshop on Synonymy in AI and Logic (National Taiwan University). Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks. 11 April 2025.
+* [Workshop on Learning and Logic (LeaLog@CSL)](https://sites.google.com/view/lealog25). Part of the 33rd EACSL Annual Conference on Computer Science Logic (CSL 2025) in Amsterdam, The Netherlands. Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks. 10 February 2025.
+
 * [Research Seminar in Decision and Action Theory](https://www.mcmp.philosophie.uni-muenchen.de/index.html) (MCMP, LMU Munich). Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks. 13 November 2024.
  * [University of Cambridge, Department of Applied Mathematics and Theoretical Physics](https://www.damtp.cam.ac.uk/). Domain-theoretic Semantics for Dynamical Systems: From Analog Computers to Neural Networks. 7 November 2024. 
 * [University of Groningen](https://www.rug.nl/). Universal Analog Computation: Fraïssé limits of dynamical systems. 25 September 2024.
