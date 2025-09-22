@@ -1,5 +1,535 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2024-05-31T11:42:09+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">blank</title><subtitle>The personal website of Levin Hornischer
-</subtitle><entry><title type="html">The No-Free-Lunch Theorem and Sheaf-Contextuality</title><link href="http://localhost:4000/blog/2024/no_free_lunch/" rel="alternate" type="text/html" title="The No-Free-Lunch Theorem and Sheaf-Contextuality" /><published>2024-05-31T00:00:00+02:00</published><updated>2024-05-31T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/no_free_lunch</id><content type="html" xml:base="http://localhost:4000/blog/2024/no_free_lunch/"><![CDATA[<p>The <em>No-Free-Lunch theorem</em> is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it <a href="https://levinhornischer.github.io/FoundAI/">my course</a>, and it got me wondering whether there are any links to another topic known as <em>contextuality</em>, i.e., situations where we have a family of data which is <em>locally consistent, but globally inconsistent</em> <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en"><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" hreflang="en" /><updated>2025-05-28T13:50:11+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">blank</title><subtitle>The personal website of Levin Hornischer
+</subtitle><entry><title type="html">How Random Is the Random Graph?</title><link href="http://localhost:4000/blog/2024/random_graph/" rel="alternate" type="text/html" title="How Random Is the Random Graph?" /><published>2024-09-01T00:00:00+02:00</published><updated>2024-09-01T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/random_graph</id><content type="html" xml:base="http://localhost:4000/blog/2024/random_graph/"><![CDATA[<p>The random graph is a wonderful object that is studied in graph theory, logic, and probability theory. It is constructed in a probabilistic way as follows. It has countably many vertices and its edges are determined by coin flips: for each (unordered) pair of vertices, you throw a coin; if it lands heads, you put an edge between the vertices, and if it lands tails, you don’t. But why—you may ask—do we speak of ‘the’ random graph? Doesn’t this construction yield many different graphs every time you run it? Yes, but it turns out that almost surely—i.e., with probability 1—the obtained graphs are isomorphic (we’ll make this more precise below).</p>
+
+<p>In fact, the random graph is a special case of the models studied in percolation theory (again, below we’ll see why). This area of math started with the seminal work of Broadbent and Hammersley in 1957 <d-cite key="Broadbent1957"></d-cite>. It describes, as they put it, ‘‘physical phenomena in which a <em>fluid</em> spreads randomly through a <em>medium</em>’’. Specifically, <em>percolation</em> describes those phenomena where the randomness resides in the medium and not in the fluid (like water permeating a porous stone), while in <em>diffusion</em> the randomness resides in the fluid and not in the medium (like particles dissolving in water). Beyond porous stones, this is also applied to disordered electrical networks, ferromagnetism, and epidemics. One reason for why this is exciting is that this provides a general model (among others) of how global and macro-level structure can arise from local and micro-level rules.</p>
+
+<div class="fake-img l-body-outset">
+<p><em>This local-to-global idea also featured in the <a href="/blog/2024/no_free_lunch">last blog post</a>. It particularly interests me in the case of neural networks: how we might explain their behavior at a global and human-understandable level given only the local and low-level information about the parameters.</em></p>
+</div>
+
+<p>So, both the random graph specifically and percolation theory more generally describe certain random objects (graphs and media) and their properties (isomorphisms and fluid flow). This got me wondering: How does this connect to <em>the</em> theory of randomness, namely, algorithmic randomness? Surprisingly, I haven’t yet seen these fields interact. (If you know about any references, I’d be very happy to hear about them.) In this post, I’d like to start exploring this a bit.</p>
+
+<ul class="task-list">
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />The definition of the random graph</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />A quick introduction to percolation</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />A crash course on algorithmic randomness</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />First ideas on how these topics interact</li>
+  <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" /><em>Tl;dr</em>: Algorithmic randomness seems fruitful to analyze percolation</li>
+</ul>
+
+<h2 id="the-random-graph">The Random Graph</h2>
+
+<h3 id="tossing-coins-to-build-a-graph">Tossing coins to build a graph</h3>
+
+<p>We start with a countable infinite collection $V$ of vertices which, for simplicity, we identify with the natural numbers $\mathbb{N}$:</p>
+
+<div class="fake-img l-body">
+<script type="text/tikz">
+\begin{tikzpicture}[dot/.style={draw,circle,minimum size=1.5mm,inner sep=0pt,outer sep=0pt,fill=lightgray}]
+  
+\node[dot, label={[font=\normalsize,text=gray]below:$0$}] at (0,0)  (v0) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$1$}] at (1,0)  (v1) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$2$}] at (2,0)  (v2) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$3$}] at (3,0)  (v3) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$4$}] at (4,0)  (v4) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$5$}] at (5,0)  (v5) {};
+\node[] at (6,0)  (v6) {$\cdots$};
+\end{tikzpicture}
+</script>
+</div>
+
+<p>The set $E$ of potential edges are all unordered pairs of vertices, i.e., the two-element subsets $\lbrace n, m \rbrace$ of $\mathbb{N}$. We now want to go through the potential edges, and for each edge $e \in E$ throw a coin to determine if it should become an actual edge or not. (Synonymous terminology is that two vertices that have an edge between them are <em>adjacent</em>.)</p>
+
+<p>So let’s first fix the order in which we consider the edges, i.e., an enumeration of $E$. There are many enumerations, but a simple one is to go through $m$ and list all the $n &lt; m$. So the order is 
+$\lbrace 0, 1 \rbrace$, $\lbrace 0, 2 \rbrace$, $\lbrace 1, 2 \rbrace$, $\lbrace 0, 3 \rbrace$, $\lbrace 1, 3 \rbrace$, etc. For each edge, in this order, we then throw a coin and write $1$ if it lands heads and $0$ if it lands tails. For example, we might record these outcomes:</p>
+
+<div class="fake-img l-body-outset">
+<table>
+    <tr>
+        <td>Edge</td>
+        <td>$\lbrace 0,1 \rbrace$</td>
+        <td>$\lbrace 0,2 \rbrace$</td>
+        <td>$\lbrace 1,2 \rbrace$</td>
+        <td>$\lbrace 0,3 \rbrace$</td>
+        <td>$\lbrace 1,3 \rbrace$</td>
+        <td>$\lbrace 2,3 \rbrace$</td>
+        <td>$\lbrace 0,4 \rbrace$</td>
+        <td>$\lbrace 1,4 \rbrace$</td>
+        <td>$\lbrace 2,4 \rbrace$</td>
+        <td>$\lbrace 3,4 \rbrace$</td>
+        <td>$\lbrace 0,5 \rbrace$</td>
+        <td>$\lbrace 1,5 \rbrace$</td>
+        <td>$\lbrace 2,5 \rbrace$</td>
+        <td>$\lbrace 3,5 \rbrace$</td>
+        <td>$\lbrace 4,5 \rbrace$</td>
+        <td>$\cdots$</td>
+    </tr>
+    <tr>
+        <td>Number</td>
+        <td>0</td>
+        <td>1</td>
+        <td>2</td>
+        <td>3</td>
+        <td>4</td>
+        <td>5</td>
+        <td>6</td>
+        <td>7</td>
+        <td>8</td>
+        <td>9</td>
+        <td>10</td>
+        <td>11</td>
+        <td>12</td>
+        <td>13</td>
+        <td>14</td>
+        <td>$\cdots$</td>
+    </tr>
+    <tr>
+        <td>Outcome</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>$\cdots$</td>
+    </tr>
+</table>
+</div>
+
+<p>This then yields the following graph:</p>
+
+<div class="fake-img l-body">
+<script type="text/tikz">
+\begin{tikzpicture}[dot/.style={draw,circle,minimum size=1.5mm,inner sep=0pt,outer sep=0pt,fill=lightgray}]
+  
+\node[dot, label={[font=\normalsize,text=gray]below:$0$}] at (0,0)  (v0) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$1$}] at (1,0)  (v1) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$2$}] at (2,0)  (v2) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$3$}] at (3,0)  (v3) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$4$}] at (4,0)  (v4) {};
+\node[dot, label={[font=\normalsize,text=gray]below:$5$}] at (5,0)  (v5) {};
+\node[] at (6,0)  (v6) {$\cdots$};
+
+\draw (v0) to [bend left] (v1);
+\draw (v0) to [bend left] (v3);
+\draw (v2) to [bend left] (v3);
+\draw (v0) to [bend left] (v4);
+\draw (v2) to [bend left] (v4);
+\draw (v3) to [bend left] (v4);
+\draw (v1) to [bend left] (v5);
+\draw (v4) to [bend left] (v5);
+
+\end{tikzpicture}
+</script>
+</div>
+
+<p>To introduce some notation, we write $2 = \lbrace 0, 1 \rbrace$ and $\omega = \mathbb{N}$. The set of two-element subsets of a set $S$ is often denoted $[S]_2$. Also, one writes $2^\omega$ for the set of functions from $\omega$ to $2$, which we can equivalently think of as infinite binary sequences. Hence each  outcome of coin tosses, like in the above table, is an element $x \in 2^\omega$. We write $\overline{\cdot} : E \to \omega$ for the enumeration function that assigns every potential edge $e$ its number $\overline{e}$.</p>
+
+<p>Thus, we have the graph $(V,E) = (\mathbb{N} , [\mathbb{N}]_2)$ of all potential edges on the given vertices, and each outcome of coin tosses $x \in 2^\omega$ determines a subgraph $G_x = (V, E_x)$ of $(V,E)$. The graph $G_x$ has the same vertices but only selects the following set of edges as ‘actual’
+\begin{aligned}
+E_x := \lbrace
+e \in E : x ( \overline{e} ) = 1 
+\rbrace.
+\end{aligned}</p>
+
+<h3 id="almost-surely-getting-isomorphic-graphs">Almost surely getting isomorphic graphs</h3>
+
+<p>But why should the graphs constructed in this way be isomorphic with probability 1, and what does that even mean exactly?</p>
+
+<p>Graph isomorphism is readily defined: Two graphs $(V,E)$ and $(V’,E’)$ are <em>isomorphic</em> if there is a bijective function $f : V \to V’$ such that for all vertices $v,v’ \in V$, they are adjacent in $(V,E)$ if and only if $f(v)$ and $f(v’)$ are adjacent in $(V’,E’)$. We then also write $(V,E) \cong (V’,E’)$.</p>
+
+<p>To make the probabilistic claim precise, we need to put a probability measure on the space $2^\omega = \prod_\omega 2$ of infinite coin toss outcomes. This is a standard thing to do: $2^\omega$ is known as the <em>Cantor space</em>. It is a ‘space’ because it naturally has a topology: namely, the product topology when viewing $2 = \lbrace 0 , 1 \rbrace$ as the discrete space with two points. This topology is generated by the <em>cylinder sets</em>, i.e., sets of the form $C = \prod_\omega C_n$ where only finitely many $C_{n_1} , \ldots , C_{n_k}$ are proper subsets of $2$ while the other $C_n$ are identical to $2$. Thus, the cylinder set $C$ describes the event ‘for $i = 1 , \ldots , k$, the outcome of the $n_i$-th coin toss was in $C_{n_i}$’. If we use a fair coin, the probability measure for an individual coin toss is given by the Bernoulli measure: $\mu(\lbrace 1 \rbrace) = \frac{1}{2}$ and $\mu(\lbrace 0 \rbrace) = \frac{1}{2}$, and of course $\mu(\lbrace 0,1 \rbrace) = 1$ and $\mu(\emptyset) = 0$. So the probability measure of a cylinder set $C$ is $\prod_{i = 1}^k \mu (C_{n_i})$. If $C$ is non-empty, each $C_{n_i}$ is a singleton (since it is neither empty nor $2$), hence this number simply is $(\frac{1}{2})^k = 2^{-k}$. It now can be shown that this measure uniquely extends to a probability measure on the $\sigma$-algebra generated by the cylinder sets. This probability measure is known as the <em>uniform</em> or <em>Lebesgue</em> measure $\lambda$ on $2^\omega$. As we will see, this is also the standard setting for algorithmic randomness.</p>
+
+<p>Now we can make precise the claim that the event that two coin toss outcomes $x$ and $y$ yield isomorphic graphs $G_x$ and $G_y$ has probability $1$. The straightforward way would be to say that the set $\lbrace (x,y) : G_x \cong G_y \rbrace$ has measure $1$ in the product space $2^\omega \times 2^\omega$. But we can do even better. We can show that there must be a specific graph $R$ such that with probability 1 the coin toss outcome $x$ yields a graph $G_x$ that is isomorphic to $R$.</p>
+
+<p><strong>Theorem</strong> (Erdős and Rényi 1963). There is a graph $R$ such that $\lambda ( \lbrace x \in 2^\omega : G_x \cong R \rbrace ) = 1$.</p>
+
+<p>Hence we can speak of <em>the</em> random graph $R$: Almost surely and up to isomorphism, our graph construction process always yields the same outcome. This may well seem counterintuitive: a random process that yields a predictable outcome (and we will come back to this).</p>
+
+<details><summary>Click for a proof sketch following Cameron <d-cite key="Cameron2013a"></d-cite></summary>
+<p>The key idea is to consider the following graph-theoretic property:</p>
+
+<ul>
+  <li>Whenever $X$ and $Y$ are two disjoint finite sets of vertices, there is a vertex which is neither in $X$ nor in $Y$ but which is adjacent to all vertices in $X$ and no vertices in $Y$.</li>
+</ul>
+
+<p>Let’s say a graph $(V,E)$ is <em>interpolatable</em> if it has this property.<d-footnote>Neither Cameron <d-cite key="Cameron2013a"></d-cite> nor Hodges <d-cite key="Hodges1993"></d-cite> give a name to this property, but Spencer <d-cite key="Spencer2001"></d-cite> does on pages 5--6 and calls it 'the Alice's restaurant property'. Spencer says Peter Winkler first used the term referring to <a href="https://www.youtube.com/watch?v=m57gzA2JCcM" target="_blank">this song</a> of Arlo Guthrie, with the chorus 'you can get anything you want at Alice's restaurant'. Since 'interpolatable' is a bit shorter, I'll stick with that.</d-footnote> Now the theorem will follow once we have the next two lemmas:</p>
+
+<ol>
+  <li>$\lambda(\lbrace x \in 2^\omega : G_x \text{ is interpolatable} \rbrace) = 1$. This is because, for fixed $X,Y \subseteq V$, as we consider more and more vertices $n$ not in $X \cup Y$, it gets more and more likely that we find one $n$ for which we threw the coins in such a way that $n$ is adjacent to all of $X$ and none of $Y$. We give a precise argument for a stronger claim below.</li>
+  <li>Any two countable interpolatable graphs are isomorphic. Here one gives a typical back-and-forth argument from model theory. The idea is this: Assume we already have constructed a partial isomorphism $f : G \to G’$ for vertices $v_0 , \ldots , v_{n-1}$ of $G$, and we want to extend it to include vertex $v_{n}$. We need to map $v_{n}$ in $G$ to a vertex in $G’$ with the same connectivity. To describe the connectivity of $v_n$ in $G$, divide $\lbrace v_0 , \ldots , v_{n-1} \rbrace$ into the subset $X$ of vertices adjacent to $v_n$ and the subset $Y$ of vertices not adjacent to $x$. By interpolatability, we can find a vertex $z$ in $G’$ with the same connectivity: i.e., that is adjacent to all vertices in $f(X)$ and no vertices in $f(Y)$. So we map $v_n$ to $z$ (in fact, we pick the $z$ with a minimal index in an enumeration of the vertices of $G’$). That was the ‘forth’-direction. To get a bijection, i.e., to find a preimage of each vertex in $G’$, we apply the same idea in the ‘back’-direction.</li>
+</ol>
+
+<p>Now, by the first claim, since sets of full measure are nonempty, there in particular is an $x_0$ such that $G_{x_0}$ is interpolatable, and we set $R := G_{x_0}$. (Yes, this is a non-constructive existence proof, but we’ll see Rado’s neat explicit definition of an interpolatable graph below.) By the second claim, once $G_x$ is interpolatable, it is isomorphic to $R$, so</p>
+
+<p>\(1 = \lambda ( \lbrace x : G_x \text{ is interpolatable} \rbrace) \leq \lambda ( \lbrace x : G_x \cong R \rbrace ),\)
+as needed.</p>
+</details>
+
+<p>This proof is the quick route to the result. But the common route is to construct the random graph $R$ as a Fraïssé limit (see, e.g., Hodges <d-cite key="Hodges1993"></d-cite> section 7.4). This yields many more stunning properties of the random graph: it is universal (every finite graph embeds into it), it is homogeneous (every isomorphism between finitely generated subgraphs extend to an automorphism), its theory is $\omega$-categorical and has quantifier elimination, etc. It also has a category-theoretic treatment: see e.g. <a href="https://golem.ph.utexas.edu/category/2009/11/fraisse_limits.html">here</a> or <a href="https://www.cambridge.org/core/journals/mathematical-structures-in-computer-science/article/abs/universal-domains-and-the-amalgamation-property/F11B604F6A928367A982F32C75E3C537">here</a> or <a href="https://www.sciencedirect.com/science/article/pii/S0168007214000773?via%3Dihub">here</a>. Fraïssé’s construction is very beautiful, but something for another post.</p>
+
+<h3 id="bonus-section-the-strange-logic-of-random-graphs">Bonus section: The strange logic of random graphs</h3>
+
+<p>To still give a flavor of the stunning results around the random graph, let me add one more theorem. Strictly speaking, it is not necessary for the remainder, but it answers the following natural question. Now we know that almost every graph has the property of being isomorphic to the random graph, but what about other properties? Couldn’t there be properties that, say, half of the graphs have and the other half don’t? Surprisingly, the theorem says: no, every property either is had by almost all graphs or by almost no graphs! (In probability theory, such statements are known as 0–1 laws.)</p>
+
+<p>To be precise, though, we need to define what we mean by ‘property’. A natural choice is: any property that can be formulated in the first-order language of graphs, i.e., the language with just one binary relation symbol $R$. The intuitive interpretation is that the variables of the language range over vertices and the relation symbol $R$ describes edge relations. Examples are:</p>
+
+<ul>
+  <li>Being irreflexive: $\forall x (\neg Rxx)$</li>
+  <li>Being symmetric: $\forall x \forall y (Rxy \to Ryx)$</li>
+  <li>Having a loop of length 3: $\exists x \exists y \exists z ( \neg x = y \wedge \neg x = z \wedge \neg y = z \wedge Rxy \wedge Ryz \wedge Rzx)$.</li>
+</ul>
+
+<p>If a graph $G$ has the property described by a sentence $\varphi$ of the first-order language of graphs, we write $G \models \varphi$. Then the theorem says:</p>
+
+<p><strong>Theorem</strong> (Fagin 1976 and Glebskii, Kogan, Liogonkii &amp; Talanov 1969).
+Let $\varphi$ be a sentence of the first-order language of graphs. Then</p>
+
+\[\lambda ( \lbrace x \in 2^\omega : G_x \models \varphi \rbrace )\]
+
+<p>is either $0$ or $1$.<d-footnote>The theorem is usually formulated in terms of <em>asymptotically almost sure</em>: the ratio among the $n$-element graphs that have property $\varphi$ converges either to $0$ or to $1$ as $n$ goes to infinity. To avoid further terminology, I formulate the theorem here in terms of the product measure that we already have introduced. The difference in the proof is that then we do not need to refer to the compactness theorem anymore. I wonder if this has to do with the fact that compactness is built into the product measure by demanding that cylinder sets only have a non-trivial projection at finitely many indices (much like Tychonoff's theorem says that compactness is 'built into' the product topology).</d-footnote></p>
+
+<details><summary>Click for a proof sketch following Fagin/Spencer <d-cite key="Spencer2001"></d-cite></summary>
+<p>We assume some basic first-order logic terminology. Let $L$ be the first-order language of graphs. 
+Consider the $L$-theory $T$ which contains:</p>
+
+<ul>
+  <li>the two sentences $\varphi_\mathrm{irr}$ and $\varphi_\mathrm{sym}$ from above expressing irreflexivity and symmetry, respectively, and</li>
+  <li>for each $r,s \geq 0$ the sentence $\varphi_{r,s}$ which says that for all distinct $x_1, \ldots, x_r$ and $y_1, \ldots y_s$ there is a distinct $z$ such that $Rzx_i$ for all $1 \leq i \leq r$ and $\neg Rzy_j$ for all $1 \leq j \leq s$.</li>
+</ul>
+
+<p>Hence, for any $L$-structure $G$, we have: $G \models T$ iff $G$ is an interpolatable graph.</p>
+
+<p>We show that $T$ is a complete $L$-theory, i.e., for any $L$-sentence $\varphi$, either $T \models \varphi$ or $T \models \neg \varphi$. Indeed, otherwise there is a sentence $\varphi$ such that both $T_1 := T \cup \lbrace \neg \varphi \rbrace$ and $T_2 := T \cup \lbrace \varphi \rbrace$ have models. Note that any such model must be infinite because for any distinct elements $x_1 , \ldots, x_n$, there must be another element $z$ distinct from them. By downward Löwenheim-Skolem, we can also find countable models $G_1 \models T_1$ and $G_2 \models T_2$. But since these models are countable interpolatable graphs, they must be isomorphic, which contradicts that one makes true $\varphi$ and the other doesn’t. (That’s essentially the <a href="https://en.wikipedia.org/wiki/%C5%81o%C5%9B%E2%80%93Vaught_test">Łoś–Vaught test</a>.)</p>
+
+<p>Now let’s consider the given $L$-sentence $\varphi$. So either $T \models \varphi$ or $T \models \neg \varphi$. If $T \models \varphi$, then, for any graph $G$, we have the implications ‘$G$ interpolatable $\Leftrightarrow$ $G \models T$ $\Rightarrow$ $G \models \varphi$’, so</p>
+
+\[\begin{aligned}
+1 &amp;= \lambda ( \lbrace x : G_x \text{ interpolatable} \rbrace ) \\
+&amp;= \lambda ( \lbrace x : G_x \models T \rbrace ) \\
+&amp;\leq \lambda ( \lbrace x : G_x \models \varphi \rbrace ) 
+\end{aligned}\]
+
+<p>If $T \models \neg \varphi$, then the same reasoning, but replacing $\varphi$ by $\neg \varphi$, yields 
+$\lambda ( \lbrace x : G_x \models \neg \varphi \rbrace ) = 1$, 
+hence, for the complement, we have
+$\lambda ( \lbrace x  : G_x \models \varphi \rbrace ) = 0$.</p>
+</details>
+
+<p>For much more on this, see the book ‘The Strange Logic of Random Graphs’ by Spencer <d-cite key="Spencer2001"></d-cite>.</p>
+
+<h2 id="percolation">Percolation</h2>
+
+<p>The general definition of a  <em>percolation model</em> is as a probability distribution on percolation configurations on an unordered graph $G = (V,E)$, where a percolation configuration $x$ is a function from $E$ to $\lbrace 0 , 1 \rbrace$ (see Duminil-Copin <d-cite key="DuminilCopin2018"></d-cite>). For an edge $e \in E$, if $x(e) = 1$ one says the edge is <em>open</em> in configuration $e$, and <em>closed</em> otherwise.</p>
+
+<p>Thus, our random graph setting is a percolation model:</p>
+
+<ul>
+  <li>The graph $G$ has vertex set $V = \mathbb{N}$ with all possible edges, i.e., $E$ is the set of all two-elements subsets of $V$.</li>
+  <li>The percolation configurations $E \to \lbrace 0,1 \rbrace$ bijectively correspond, via our enumeration $E \to \omega$, to the elements of $2^\omega$.</li>
+  <li>The probability distribution also is given via this bijective correspondence to the Lebesgue measure on Cantor space $2^\omega$. Thus, an edge is open with probability $p = \frac{1}{2}$.</li>
+</ul>
+
+<p>But among the most studied percolation models is ‘bond percolation on the square lattice’ where</p>
+
+<ul>
+  <li>The graph $G$ has as vertices pairs of integers, i.e., $V = \mathbb{Z}^2$, and there is an edge between $(a,b)$ and $(c,d)$ iff the (Euclidean) distance between them is $1$, i.e., $\vert a-c \vert + \vert b-d \vert = 1$.</li>
+  <li>The configurations again are the functions $E \to 2$; which, by fixing an enumeration of $E$, again bijectively correspond to the elements of $2^\omega$.</li>
+  <li>The probability distribution is given with respect to the Bernoulli parameter $0 \leq p \leq 1$: an edge’s probability of being open is $p$ and of being closed is $1 - p$, i.e., we don’t necessarily use a fair coin. This again extends to a probability measure $\mu_p$ on all configurations $2^E$ by taking cylinder sets and the product measure of these Bernoulli measures.</li>
+</ul>
+
+<p>We can visualize this as follows: We draw the two-dimensional grid $\mathbb{Z}^2$, whose origin we mark by $o = (0,0)$. For each potential edge (i.e., vertices with distance $1$), we throw a coin with bias $p$ to determine if the edge is open (in which case we draw an edge) or closed (in which case we don’t draw an edge). One possible outcome—i.e., one configuration—looks like this:</p>
+
+<script type="text/tikz">
+\begin{tikzpicture}[dot/.style={draw,circle,minimum size=1.5mm,inner sep=0pt,outer sep=0pt,fill=lightgray}]
+  
+\node[dot] at (0,0)  (00) {};
+\node[dot] at (1,0)  (10) {};
+\node[dot] at (2,0)  (20) {};
+\node[dot] at (3,0)  (30) {};
+\node[dot] at (4,0)  (40) {};
+\node[dot] at (5,0)  (50) {};
+\node[dot] at (6,0)  (60) {};
+
+\node[dot] at (0,1)  (01) {};
+\node[dot] at (1,1)  (11) {};
+\node[dot] at (2,1)  (21) {};
+\node[dot] at (3,1)  (31) {};
+\node[dot] at (4,1)  (41) {};
+\node[dot] at (5,1)  (51) {};
+\node[dot] at (6,1)  (61) {};
+
+\node[dot] at (0,2)  (02) {};
+\node[dot] at (1,2)  (12) {};
+\node[dot] at (2,2)  (22) {};
+\node[dot, label={[font=\normalsize,text=gray]30:$o$}] at (3,2)  (32) {};
+\node[dot] at (4,2)  (42) {};
+\node[dot] at (5,2)  (52) {};
+\node[dot] at (6,2)  (62) {};
+
+\node[dot] at (0,3)  (03) {};
+\node[dot] at (1,3)  (13) {};
+\node[dot] at (2,3)  (23) {};
+\node[dot] at (3,3)  (33) {};
+\node[dot] at (4,3)  (43) {};
+\node[dot] at (5,3)  (53) {};
+\node[dot] at (6,3)  (63) {};
+
+\node[dot] at (0,4)  (04) {};
+\node[dot] at (1,4)  (14) {};
+\node[dot] at (2,4)  (24) {};
+\node[dot] at (3,4)  (34) {};
+\node[dot] at (4,4)  (44) {};
+\node[dot] at (5,4)  (54) {};
+\node[dot] at (6,4)  (64) {};
+
+\node[] at (-1,2) {$\cdots$};
+\node[] at (7,2) {$\cdots$};
+
+\draw[-] (00)--(01);
+\draw[-] (00)--(10);
+\draw[-] (10)--(20);
+\draw[-] (30)--(31);
+\draw[-] (40)--(50);
+\draw[-] (60)--(61);
+
+\draw[-] (01)--(02);
+\draw[-] (11)--(21);
+\draw[-] (21)--(22);
+\draw[-] (21)--(31);
+\draw[-] (41)--(42);
+\draw[-] (51)--(52);
+\draw[-] (51)--(61);
+
+\draw[-] (02)--(12);
+\draw[-] (12)--(13);
+\draw[-] (22)--(23);
+\draw[-] (22)--(32);
+\draw[-] (21)--(31);
+\draw[-] (42)--(42);
+\draw[-] (52)--(53);
+
+\draw[-] (13)--(14);
+\draw[-] (23)--(33);
+\draw[-] (33)--(43);
+\draw[-] (53)--(63);
+\draw[-] (53)--(54);
+\draw[-] (63)--(64);
+
+
+\end{tikzpicture}
+</script>
+
+<p>As mentioned in the introduction, one thinks of the subgraph of the grid that is determined by a configuration as describing a porous medium. An open edge describes a ‘cavity’ in the medium. Then one considers how a fluid spreads through it, i.e., which connected components there are in the configuration. (Hence, randomness resides in the medium and the fluid flows deterministically.) Thus, to understand the qualitative behavior of the medium, the natural question is to understand when there are large clusters. As Grimmett <d-cite key="Grimmett1999"></d-cite> puts it on page 1:</p>
+
+<blockquote>
+  <p>Suppose we immerse a large porous stone in a bucket of water. What is the probability that the centre of the stone is wetted? […] It is not unreasonable to postulate that the fine structure of the interior passageways of the stone is on a scale which is negligible when compared with the overall size of the stone. In such circumstances, the probability that a vertex near the centre of the stone is wetted by water permeating into the stone from its surface will behave rather similarly to the probability that this vertex is the endvertex of an infinite path of open edges in $\mathbb{Z}^2$. That is to say, the large-scale penetration of the stone by water is related to the existence of infinite connected clusters of open edges.</p>
+</blockquote>
+
+<p>The exciting discovery about this model is that there is a clear <em>phase transition</em> when varying the parameter $p$. This varying of the parameter is when percolation theory gets really interesting. For small values of $p$ (i.e., close to $0$), almost surely all clusters are finite, while for large values of $p$ (i.e., close to $1$), almost surely there are infinite clusters. So there is a critical value $p_c$ such that for $p &lt; p_c$ infinite clusters almost surely do not exist and for $p &gt; p_c$ they almost surely exist. The celebrated theorem of Kesten shows that, in fact, $p_c = \frac{1}{2}$.</p>
+
+<p>This is the sense mentioned in the introduction in which global, qualitative, macro-level behavior (existence of infinite clusters or permeability) arises from local, quantitative, micro-level rules (open edges in the configuration or porosity). For more on the topic, see, e.g., <d-cite key="DuminilCopin2017"></d-cite><d-cite key="Grimmett1999"></d-cite><d-cite key="Bollobas2006"></d-cite> or <a href="https://www.youtube.com/watch?v=a-767WnbaCQ">this great introductory video</a>.</p>
+
+<h2 id="a-crash-course-on-algorithmic-randomness">A Crash Course on Algorithmic Randomness</h2>
+
+<p>Let’s now see how these random objects—the random graph or the porous stone—connect to the theory of algorithmic randomness. For a quick introduction to this exciting field, take a look at the introduction of the standard book by Downey and Hirschfeldt <d-cite key="Downey2010"></d-cite>. Here let’s limit us to a very concise crash course.</p>
+
+<h3 id="intuition">Intuition</h3>
+
+<p>In the last 100 years or so, algorithmic randomness developed a rigorous formalization and investigation of the concept of randomness. It describes what it means that an individual mathematical object—like an infinite binary sequence—is random. After all, why is it that a sequence like
+\begin{aligned}
+1001110100101101010111010101\ldots
+\end{aligned}
+is (or at least appears) random while 
+\begin{aligned}
+1001001001001001001001001001\ldots
+\end{aligned}
+is not? There are several formal notions of randomness, with interesting relationships, but arguably the most well-known one is Martin-Löf randomness. It unites three intuitions about what it means for an infinite binary sequence to be random:</p>
+
+<ol>
+  <li>Unpredictability: We should not be able to predict the next bit in a random sequence when knowing all preceding bits.</li>
+  <li>Typicality: A random sequence should not have any rare properties. In other words, they should pass all effective statistical tests (we’ll make this precise soon).</li>
+  <li>Incompressability: The initial segments of a random sequence are incompressible, i.e., there is no more effective method of producing them than just listing them. (The second, non-random sequence above is effectively generated by the rule ‘repeat the string 100 forever’.)</li>
+</ol>
+
+<p>Here we will focus on formalizing the typicality intuition, which is also what Martin-Löf originally did. As mentioned, algorithmic randomness takes place—not exclusively, but primarily—in the setting of Cantor space $2^\omega$ (which we have seen before), i.e., the set of infinite binary sequences. The formal definition hence will be of the following form: ‘an infinite binary sequence $x \in 2^\omega$ is Martin-Löf random iff …’. To fill in the dots, we need a sequence of preliminary definitions.</p>
+
+<h3 id="definition">Definition</h3>
+
+<p>By ‘sequence’ we mean an infinite sequence and by ‘string’ we mean a finite sequence. If $\sigma$ is a binary string, $[\sigma]$ is defined as the set of all $x \in 2^\omega$ that extend $\sigma$. In other words, this is the cylinder set $\prod_n C_n$ with $C_n = \lbrace \sigma(n) \rbrace$ if $\sigma(n)$ is still defined and otherwise $C_n = 2$. If $A$ is a set of binary strings, we write $[A] := \bigcup_{\sigma \in A} [\sigma]$.</p>
+
+<p>The open sets of Cantor space are unions of cylinder sets, so $[A]$ is an open set. We now want to define when it is ‘effectively open’, i.e., when an algorithm can ‘produce’ $A$.</p>
+
+<p>If $A$ is a set of binary strings, we say $A$ is <em>computably enumerable</em> if there is an algorithm that enumerates $A$. That is to say, as time progresses, the algorithm produces more and more outputs $a_0 , a_1, a_2, \ldots$ which are all elements of $A$ and every element of $A$ is outputted at least once. So, for a given string $\sigma$, if $\sigma$ is in $A$, it will eventually be outputted by the algorithm, but we don’t know in advance how long we have to wait for this to happen. Hence we, for a given string, we cannot <em>decide</em> if it is in $A$. If we have such a stronger algorithm that decides membership in $A$ (i.e., given a string as input it produces $1$ or $0$ as output depending on whether the string is or is not in $A$), then we say $A$ is <em>computable</em>. But here we will only use the weaker notion of computable enumerability.</p>
+
+<p>We say that a sequence $A_0 , A_1, A_2, \ldots$ of sets of binary strings is <em>uniformly computably enumerable</em> if there is an algorithm that, when given the number $n$ as input, starts enumerating the set $A_n$. Hence not only is each $A_n$ computalby enumerable, but we have a single algorithm that can do all the enumerating. So, as usual, the ‘uniform’ indicates that we not only have an $\forall \exists$-quantifier, but an $\exists \forall$-quantifier: it is not just the case that for all $n$, there is an algorithm that enumerates $A_n$, but there is an algorithm such that, for all $n$, it enumerates $A_n$.</p>
+
+<p>Now we say that a set $U \subseteq 2^\omega$ is <em>effectively open</em> if there is a computably enumerable set $A$ of binary strings such that $U = [A]$. A sequence $U_0, U_1, U_2, \ldots$ of subsets of $2^\omega$ is <em>uniformly effectively open</em> if there is a uniformly computably enumerable sequence $A_0 , A_1, A_2, \ldots$ of sets of binary strings such that, for all $n$, we have $U_n = [A_n]$.</p>
+
+<p>A <em>Martin-Löf test</em> is a uniformly effectively open sequence $(U_n)$ such that, for all $n$, we have $\lambda (U_n) \leq 2^{-n}$. With that, we can finally define:</p>
+
+<p><strong>Definition</strong> (Martin-Löf 1966). A sequence $x \in 2^\omega$ is <em>Martin-Löf random</em> if it passes every Martin-Löf test, i.e., for every Martin-Löf test $(U_n)$, we have $x \not\in \bigcap_n U_n$.</p>
+
+<p>How does this capture the typicality intuition? The idea is that a Martin-Löf test $(U_n)$ explicates the notion of a performable statistical test for outliers: If we have a given sample $x \in 2^\omega$, we test whether $x \in P := \bigcap_n U_n$, i.e., whether $x$ has the rare property $P$. In other words, we test whether $x$ is an outlier in that it has the rare or atypical property $P$.</p>
+
+<ul>
+  <li>That the test is performable is explicated as $(U_n)$ being uniformly effectively open: If $x$ has the rare property $P$, we will, for any $n$, eventually know that $x$ is in $U_n$, by checking whether our $x$ has as initial segment one of the binary strings generating $U_n$.<d-footnote>This is some form of falsifiability. Though, usually falsifiability is explicated as the property in question being a closed set.</d-footnote></li>
+  <li>That the property $P$ is rare is explicated as it not only having probability $0$, but its probability converges to $0$ <em>quickly</em> or <em>effectively</em>, because the probability of the $U_n$ is bounded by $2^{-n}$.</li>
+</ul>
+
+<p>Of course, other explications of performability and rarity are possible, which may or may not lead to different notions of randomness. Here are two examples that we will use later on.</p>
+
+<ol>
+  <li>
+    <p>A <em>Solovay test</em> is defined just like a Martin-Löf test, but we only require $\sum_n \lambda (U_n) &lt; \infty$ rather than $\lambda (U_n) \leq 2^{-n}$. It can be shown that this doesn’t change the notion of randomness: $x$ is Martin-Löf random iff it passes every Solovay test.</p>
+  </li>
+  <li>
+    <p>A <em>Schnorr test</em> is also defined just like Martin-Löf test, but we require $\lambda (U_n) = 2^{-n}$ rather than only $\lambda (U_n) \leq 2^{-n}$. (Or, rather, we require $(\lambda (U_n))$ to be uniformly computable, but this yields the same notion of randomness, so we skip the definition of uniform computability of reals.) This does, however, change the notion of randomness: If we define $x \in 2^\omega$ to be <em>Schnorr random</em> if $x$ passes all Schnorr tests, then being Martin-Löf random clearly implies being Schnorr random, but the converse need not be true.</p>
+  </li>
+</ol>
+
+<p>As a final comment, the typicality intuition offers an important perspective on the field of algorithmic randomness. While probability theory ‘only’ provides qualitative results of the form that almost surely a given object has a desired property, algorithmic randomness provides a further quantitative analysis of such results by describing ‘how typical’ the object $x$ has to be for it to have the desired property. For more on this, see, e.g., <d-cite key="Rute2019"></d-cite>.</p>
+
+<h2 id="how-random-is-the-random-graph">How random is the random graph?</h2>
+
+<p>Now that we have the tools of algorithmic randomness available, we can revisit the random graph. Conveniently, it already ‘lives’ in the same setting as algorithmic randomness, i.e., Cantor space. So we can straightforwardly investigate how random it is.</p>
+
+<h3 id="schnorr-randomness-is-sufficient">Schnorr Randomness is Sufficient</h3>
+
+<p>To recall, we considered the graph $G = (V,E)$ whose vertices are the natural numbers and which has all unordered edges. A sequence $x \in 2^\omega$ of coin toss outcomes selects a subgraph $G_x$ of $G$ by selecting an edge $e$ iff the $\overline{e}$-th coin toss was $1$, where $\overline{\cdot} : E \to \omega$ is our fixed (computable) enumeration of edges.</p>
+
+<p><strong>Theorem</strong>. Let $x \in 2^\omega$ be Schnorr random. Then the graph $G_x$ is isomorphic to the random graph.</p>
+
+<details><summary>Click for the proof</summary>
+<p>We show that $G_x$ is interpolatable. So let $X = \lbrace i_0, \ldots , i_{r-1} \rbrace$ and $Y = \lbrace j_0, \ldots , j_{s-1} \rbrace$ be two finite disjoint subsets of $\mathbb{N}$. We need to find a vertex $k$ not in $X \cup Y$ that is adjacent to all vertices in $X$ and no vertices in $Y$. 
+So let’s say <em>$x$ fits $X$ and $Y$ at $k$</em> if $k \not\in X \cup Y$ and</p>
+
+<ol>
+  <li>for all $i \in X$, we have $x ( \overline{\lbrace i , k \rbrace } ) = 1$, and</li>
+  <li>for all $j \in Y$, we have $x ( \overline{\lbrace j , k \rbrace } ) = 0$.</li>
+</ol>
+
+<p>We will define an appropriate Schnorr test $(U_n)$ such that $x \not\in \bigcup_n U_n$ implies the existence of the desired vertex $k$.</p>
+
+<p>To define the Schnorr test, let $N := \max ( X \cup Y ) + 1$. For $n \geq 0$, define $V_n$ as the set of those $x \in 2^\omega$ for which there is no $k \in \lbrace N , \ldots ,  N + n \rbrace$ such that $x$ fit $X$ and $Y$ at $k$.
+Set
+\begin{aligned}
+q 
+:= 
+\frac{2^{r + s} - 1}{2^{r + s}},
+\end{aligned}
+and define $f : \mathbb{N} \to \mathbb{N}$ by mapping $n$ to the smallest $m$ such that $q^m \leq 2^{-n}$.
+Finally, define, for $n \geq 0$, 
+\begin{aligned}
+U_n 
+:=
+V_{f(n)}.
+\end{aligned}</p>
+
+<p>Show that $(U_n)$ is a Schnorr test will finish the proof: Then, since $x$ is Schnorr random, we have $x \not\in \bigcap_n U_n$, so there is $n$ such that $x \not\in V_{f(n)}$. Hence there is $k \in { N , \ldots , N + f(n)}$ such that $x$ fits $X$ and $Y$ at $k$, as needed.</p>
+
+<p>As useful notation, for $k \in \mathbb{N} \setminus (X \cup Y)$ and $\sigma$ a binary string of length $r + s$, write $W(k,\sigma)$ for the set of those $x \in 2^\omega$ such that</p>
+
+<ul>
+  <li>$x( \overline{ \lbrace i_0 , k \rbrace } ) = \sigma (0)$,</li>
+  <li>$\ldots$,</li>
+  <li>$x( \overline{ \lbrace i_{r-1} , k \rbrace} ) = \sigma (r-1)$,</li>
+  <li>$x( \overline{ \lbrace j_0 , k \rbrace} ) = \sigma (r)$,</li>
+  <li>$\ldots$, and</li>
+  <li>$x(\overline{ \lbrace j_{s-1} , k \rbrace }) = \sigma (r+s-1)$.</li>
+</ul>
+
+<p>Thus, $x \in 2^\omega$ fits $X$ and $Y$ at $k \in \mathbb{N} \setminus (X \cup Y)$ precisely if $x \in W(k,\rho)$ where</p>
+
+\[\begin{aligned}
+\rho 
+= 
+\underbrace{1 \ldots 1}_{r \text{ times}}
+\underbrace{0 \ldots 0}_{s \text{ times}}.
+\end{aligned}\]
+
+<p>Hence, writing $S$ for the set of all binary strings of length $r + s$ except for $\rho$, we have</p>
+
+<p>$$
+\begin{aligned}
+V_n
+= 
+\bigcup_{(\sigma_0 , \ldots , \sigma_{n-1}) \in S^n }
+\bigcap_{k = N}^{N + n}
+W(k,\sigma_k).
+\end{aligned}</p>
+
+<p>Since the set $W(k,\sigma_k)$ is a cylinder set, also the intersection $\bigcap_{k = N}^{N + n} W(k,\sigma_k)$ is. So $V_n$ even is a finite union of cylinder sets, which we can compute uniformly in $n$, so $(V_n)$ is uniformly effectively open.</p>
+
+<p>Turning to the measures, the cylinder set $W(k,\sigma_k)$ places a constraint at $r + s$ many positions, and the intersection $\bigcap_{k = N}^{N + n} W(k,\sigma_k)$ at $n (r + s)$ many positions. So the intersection has measure $(2^{-(r + s)})^n$. Since these intersections are disjoint for different elements of $S^n$, we have
+\begin{aligned}
+\lambda (V_n) 
+=
+\sum_{S^n}
+(2^{-(r + s)})^n
+=
+|S|^n  (2^{r + s})^{-n}
+=
+\frac{(2^{r+s} - 1)^n}{(2^{r + s})^{n}}
+= q^n.
+\end{aligned}</p>
+
+<p>Finally, since $f$ is computable, the $U_n$’s also are uniformly effectively open, and their measure $\lambda(U_n) = q^{f(n)} \leq 2^{-n}$ is uniformly computable. So $(U_n)$ indeed is a Schnorr test.</p>
+</details>
+
+<p>Thus, Schnorr randomness (and in particular Martin-Löf randomness) is enough typicality to ensure that the selected graph is the random graph. But as we’ll see next, we cannot have the converse.</p>
+
+<h3 id="but-randomness-is-not-necessary">But Randomness is Not Necessary</h3>
+
+<p>As came up in conversation with Michiel van Lambalgen, there is no hope that this is a characterization of Schnorr randomness, or <em>any</em> randomness notion, because there can be computable $x$ (which hence are not random in any sense) such that $G_x$ is random.</p>
+
+<p>This is because the random graph is characterized by being a countable interpolatable graph, but there also are completely deterministic ways of building such a graph. Indeed, Rado <d-cite key="Rado1964"></d-cite> constructed the random graph as follows: The set of vertices is $\mathbb{N}$ and there is an edge between $i$ and $j$ iff the $i$-th bit of $j$, when written as a binary number, is $1$.
+Thus, consider the $x \in 2^\omega$ defined by $x(n) = 1$ iff for the pair $\lbrace i,j \rbrace$ with $\overline{\lbrace i,j \rbrace} = n$ we have that the $i$-th bit of $j$ in binary is $1$. Then $G_x$ is Rado’s random graph but $x$ is computable.</p>
+
+<p>Ultimately this reflects what we said right after introducing the random graph: even though the process generating this graph is random (hence Schnorr randomness is sufficient), the graph itself is deterministic (hence it is not necessary).</p>
+
+<h2 id="percolation-meets-algorithmic-randomness">Percolation Meets Algorithmic Randomness</h2>
+
+<p>So far, we considered one percolation model (namely, the setting of the random graph) and one almost sure property of the percolation configurations (namely, being the random graph). We saw that if the percolation configuration was typical (in the sense of being Schnorr random), then it has the almost sure property, but the converse needn’t be the case.</p>
+
+<p>Now it is only natural to consider other percolation models with their configurations, as well as other almost sure properties, and maybe also other notions of typicality/randomness. An obvious choice is the ‘bond percolation on the square lattice’ model and the property of having (or avoiding) an infinite cluster—since we have seen that they play a central role in percolation theory.</p>
+
+<p>I haven’t worked this out yet, but I imagine it could go like this. Let’s consider the subcritical regime, i.e., a bond percolation on the square lattice with bias $p &lt; p_c = \frac{1}{2}$. Instead of infinite clusters, we can also consider the closely related property of the origin $o$ being connected to infinity, i.e., there being an infinite simple path starting at $o$. (This property has positive probability iff the property of there being an infinite cluster has probability 1.) 
+A classic result, reviewed by Duminil-Copin <d-cite key="DuminilCopin2017"></d-cite> on page 3, is that in this subcritical regime, there is a constant $c &gt; 0$ such that the probability of $o$ being connected to distance $n$ is $\leq \mathrm{exp}(-cn)$. This lends itself to a Solovay test $(U_n)$ with $U_n$ containing those $x$ where in $G_x$ the origin is connected to distance $n$. This suggests to conjecture that if $x$ is Martin-Löf random, then $G_x$ in the subcritical regime does not have any infinite clusters. What about the converse here?</p>
+
+<p>And what about the supercritical regime and the property of having an infinite cluster? Duminil-Copin <d-cite key="DuminilCopin2017"></d-cite> highly praises a classic result of <a href="https://link.springer.com/article/10.1007/BF01217735">Burton and Keane</a> showing that then this cluster is unique. The argument uses ergodic theory, and <a href="https://link.springer.com/chapter/10.1007/978-3-642-13962-8_6">Bienvenu, Day, Mezhirov and Shen</a> provide ergodic-type characterizations of algorithmic randomness.</p>
+
+<p>These questions about applying algorithmic randomness to percolation seem very interesting because it is not just any old ‘almost sure’ result that is being analyzed. It is a result about a statistical process where many intuitions about randomness play a key role. After all, randomly selecting a subsequence of a given sequence was central to von Mises’ first formalization and analysis of randomness. Whether these intuitions can be pumped to be added to the trinity of ‘unpredictable’, ‘typical’, and ‘incompressible’ remains to be seen.</p>
+
+<h2 id="next-questions">Next questions</h2>
+
+<ol>
+  <li>
+    <p>Extend the above first ideas and analyze ‘almost sure’ results in percolation theory in terms of algorithmic randomness: which notion of randomness they require and maybe even characterize.</p>
+  </li>
+  <li>
+    <p>What changes if we built the random graph or the bond percolation on the square lattice when each edge is determined by different, but still independent Bernoulli processes, e.g., coins with different biases. Then <a href="https://www.jstor.org/stable/1969123?origin=crossref">Kakutani’s theorem</a> (the one in measure theory, not the fixed point theorem) applies. It provides a simple criterion for when two product measures are mutually singular or equivalent (see section 10, page 222 of the linked paper). This theorem also plays a crucial role in van Lambalgen’s proof of Ville’s theorem in algorithmic randomness (<d-cite key="Lambalgen1987"></d-cite>, theorem 4.6.1).</p>
+  </li>
+  <li>
+    <p>Modal logic can be seen as the logic of (directed) graphs: How does it connect to percolation theory? [Edit: Soon after writing this, I came across <a href="https://arxiv.org/abs/2102.05947v2">this</a> great paper by Rineke Verbrugge. It starts with a very helpful overview of work in this area, and then proves a 0-1 laws for provability logic. (For a modal formula being valid in a Kripke model, a 0-1 law follows from Johan van Benthem’s translation into first-order logic, but axiomatization and frame validity are difficult.) A <a href="https://link.springer.com/article/10.1007/s11225-024-10126-0">later paper</a> also considers ‘Dynamic Logics of Diffusion and Link Changes on Social Networks’.]</p>
+  </li>
+  <li>
+    <p>We’ve seen that percolation is in a sense dual to diffusion: the medium is random rather than the fluid. Now, diffusion famously inspired machine learning. Can percolation also be fruitfully applied to neural networks? After all, activation deterministically flows through the network which was built using a stochastic process (namely, stochastic gradient descent).</p>
+  </li>
+</ol>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>We introduced the random graph and percolation theory in order to see how they can be studied from the point of view of algorithmic randomness. This posed more questions than we saw answers, but algorithmic randomness did seem fruitful to analyze percolation.</p>]]></content><author><name></name></author><category term="AlgorithmicRandomness" /><category term="Percolation" /><summary type="html"><![CDATA[Percolation Theory Meets Algorithmic Randomness]]></summary></entry><entry><title type="html">The No-Free-Lunch Theorem and Sheaf-Contextuality</title><link href="http://localhost:4000/blog/2024/no_free_lunch/" rel="alternate" type="text/html" title="The No-Free-Lunch Theorem and Sheaf-Contextuality" /><published>2024-05-31T00:00:00+02:00</published><updated>2024-05-31T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/no_free_lunch</id><content type="html" xml:base="http://localhost:4000/blog/2024/no_free_lunch/"><![CDATA[<p>The <em>No-Free-Lunch theorem</em> is a fundamental limitative result in the theory of machine learning. It says that there cannot be a universal learner. (We discuss the precise statement below.) I recently covered it in <a href="https://levinhornischer.github.io/FoundAI/">my course</a>, and it made me wonder whether there are any links to another topic known as <em>contextuality</em>, i.e., situations where we have a family of data which is <em>locally consistent, but globally inconsistent</em> <d-cite key="Abramsky2015"></d-cite>. Examples include quantum mechanics (for which this was first developed), but also databases, constraint satisfaction, logical paradoxes, and others.</p>
 
 <p>In this post, I explore whether the impossibility of a universal learner can be seen as an instance of contextuality. The idea is:</p>
 
@@ -10,7 +540,7 @@
 
 <p>We make this precise by defining what we will call the <em>learner presheaf</em> and by providing a locally consistent family of learners (i.e., compatible sections of the presheaf) that cannot be globally consistent (i.e., the presheaf does not have global sections).</p>
 
-<p>I’m not aware of work in this direction<d-footnote>Closest seems to come <d-cite key="Bowles2023"></d-cite>, but they don't use sheaves. If you know of some work, I'd be very happy to hear about it.</d-footnote>, but it promises to make applicable the powerful tools of contextuality to machine learning.</p>
+<p>I’m not aware of work in this specific direction<d-footnote>Closest seems to come <d-cite key="Bowles2023"></d-cite>, but they don't use sheaves. If you know of some work, I'd be very happy to hear about it.</d-footnote>, but it promises an application of the powerful contextuality tools to machine learning.</p>
 
 <ul class="task-list">
   <li class="task-list-item"><input type="checkbox" class="task-list-item-checkbox" disabled="disabled" checked="checked" />A quick introduction to statistical learning theory as the classic theory of machine learning</li>
@@ -26,12 +556,12 @@
 <p>Statistical learning theory was developed as the theory of machine learning <d-cite key="ShalevShwartz2014"></d-cite>. It studies when a learner can make correct predictions for future inputs after having seen finitely many past inputs together with their correct prediction (aka supervised learning).</p>
 
 <div class="fake-img l-body-outset">
-<p><em>Just a quick comment on the broader context. There is some disconnect between theory and practice: this theory does not fully account for the practices of modern deep learning. For further reading on this, see, e.g., <d-cite key="Berner2022"></d-cite> or <d-cite key="Belkin2021"></d-cite>. But this topic, together with the many other approaches to a theory of machine learning, is a something for another occasion. Here we will continue and see what the classic theory has to say.</em></p>
+<p><em>Just a quick comment on the broader context. There is some disconnect between theory and practice: this theory does not fully account for the practices of modern deep learning. For further reading on this, see, e.g., <d-cite key="Berner2022"></d-cite> or <d-cite key="Belkin2021"></d-cite>. But this topic, together with the many other approaches to a theory of machine learning, is something for another occasion. Here we will continue and see what the classic theory has to say.</em></p>
 </div>
 
 <p>Let’s illustrate such a learner with an example. The learner gets a dataset $S$ consisting of, say, 100,000 pairs $(x,y)$ with a pixel image $x$ of an animal and the label $y$ which is $1$ or $0$ depending on whether the depicted animal is a dog or not. Based on that, the learner has to come up with a general prediction rule $h$ that takes as input an image $x$ (whether already seen or new) and produces as output a label $h(x) = y$ describing whether the learner takes this image to depict a dog. If our learner is a neural network, it updates its weights according to the backpropagation algorithm as it goes through batches of the dataset. Whatever the setting of weights it arrives at after this training process, it will compute a function $h$ mapping inputs $x$ to outputs $h(x)$.<d-footnote>Technically, the network maps $x$ to logits, which then can be turned into probabilities, and the output is taken to be $1$ in a given dimension once the corresponding probability exceeds $0.5$.</d-footnote></p>
 
-<p>Typically, the learner is biased—or, positively formulated, has prior knowledge—and considers only certain functions from inputs to outputs to be potential prediction rules. (This helps avoiding overfitting to the training data, since with fewer prediction rules there are fewer options that fit the data too well.) Our neural network, for example, will only consider those functions that can be realized with some setting of weights.<d-footnote>By the universal approximation theorems the functions that are realized by neural networks can, however, approximate any given continuous function (e.g., from inputs to logits) arbitrarily well.</d-footnote> The set of functions that the learner considers is called the <em>hypothesis class</em> or its <em>inductive bias</em> (i.e., its bias when doing what, outside of math, is called induction: namely, choosing a general rule after seeing finitely many examples).</p>
+<p>Typically, the learner is biased—or, positively formulated, has prior knowledge—and considers only certain functions from inputs to outputs to be potential prediction rules. (This helps to avoid overfitting to the training data, since with fewer prediction rules there are fewer options that fit the data too well.) Our neural network, for example, will only consider those functions that can be realized with some set of weights.<d-footnote>By the universal approximation theorems the functions that are realized by neural networks can, however, approximate any given measurable function (e.g., from inputs to logits) arbitrarily well.</d-footnote> The set of functions that the learner considers is called the <em>hypothesis class</em> or its <em>inductive bias</em> (i.e., its bias when doing what, outside of math, is called induction: namely, choosing a general rule after seeing finitely many examples).</p>
 
 <p>This already motivates the formal framework of statistical learning theory. (We use the following common notation: If $M$ is a set, $M^*$ is the set of all finite sequences of elements from $M$. If $X$ and $Y$ are sets, then $Y^X$ is the set of all functions from $X$ to $Y$.)</p>
 
@@ -57,11 +587,11 @@
   <li>We have a function $A : (X \times Y)^* \to H$ (the <em>learner</em>), which maps a <em>dataset</em> $S$ (i.e., a finite sequence of input-output pairs) to a <em>prediction rule</em> $h = A(S)$.</li>
 </ul>
 
-<p>In our example, $A(S)$ is the function that the neural network realizes with the weights obtained after initializing the weights and then doing, say, 10 repetitions (aka epochs) of going through batches of $S$ and updating the weights with backpropagation (we ignore that this is not a fully deterministic process).</p>
+<p>In our example, $A(S)$ is the function that the neural network realizes with the weights obtained after initialization and then doing, say, 10 repetitions (aka epochs) of going through batches of $S$ and updating the weights with backpropagation (we ignore that this is not a fully deterministic process).</p>
 
-<p>The last definition we need is what it means for a learner to be ‘good’, i.e., to produce correct prediction rules. Statistical learning theory accounts for the fact that the learners operate in a statistical and noisy environment. So rather than saying that a learner will surely be completely correct, we focus on when a learner will <em>p</em>robably be <em>a</em>pproximately <em>c</em>orrect—aka a PAC learner. For such a learner, there should only be a small probability of $\delta$ that the learner comes up with a prediction rule with more than $\epsilon$-much error.</p>
+<p>The last definition we need is what it means for a learner to be ‘good’, i.e., to produce correct prediction rules. Statistical learning theory accounts for the fact that the learners operate in a stochastic and noisy environment. So rather than saying that a learner will surely be completely correct, we focus on when a learner will <em>p</em>robably be <em>a</em>pproximately <em>c</em>orrect—aka a PAC learner. For such a learner, there should only be a small probability of $\delta$ that the learner comes up with a prediction rule with an error of more than $\epsilon$.</p>
 
-<p>More precisely, for any confidence parameter $\delta$ and accuracy parameter $\epsilon$, there should be a number of samples $m$, such that if the learner takes a set $S$ of $m$-many input-output samples of the world (which is governed by a probability distribution $P$ that the learner does not know), then, with probability at least $1 - \delta$ over the choice of samples, the learner’s prediction $A(S)$ has an error of less than $\epsilon$, provided there is a correct hypothesis in the first place. Here the error of a function $h : X \to Y$ is measured as the probability that the function does not produce the right label:</p>
+<p>More precisely, for any confidence level $\delta$ and accuracy $\epsilon$, there should be a number of samples $m$, such that if the learner takes a set $S$ of $m$-many input-output samples of the world (which is governed by a probability distribution $P$ that the learner does not know), then, with probability at least $1 - \delta$ over the choice of samples, the learner’s prediction $A(S)$ has an error of less than $\epsilon$, provided there is a correct hypothesis in the first place. Here the error of a function $h : X \to Y$ is measured as the probability that the function does not produce the right label:</p>
 
 \[L_P (h) := P \big( \{
 (x,y) \in X \times Y 
@@ -69,7 +599,7 @@
 h(x) \neq y
 \} \big).\]
 
-<p>This is also called the <em>true error</em> (which is inaccessible to the learner) to contrast it with the <em>empirical error</em> (which is accessible to the learner), that is defined as difference of prediction relative to a given dataset $S$:</p>
+<p>This is also called the <em>true error</em> (which is not accessible to the learner) to contrast it with the <em>empirical error</em> (which is accessible to the learner). The empirical error, which we will use later, is defined as the percentage of misprediction on a given dataset $S$:</p>
 
 \[L_S (h) := \frac{1}{|S|} \big\lbrace
 (x,y) \in S : h(x) \neq y 
@@ -94,7 +624,7 @@ L_P( A(S) ) \geq \epsilon
 
 <h2 id="the-no-free-lunch-theorem">The No-Free-Lunch theorem</h2>
 
-<p>For a given domain set $X$ and label set $Y$, there are many learners: they can vary in their hypothesis class (i.e., their inductive bias), and even if they agree on that, they can still generalize to different prediction rules from the very same dataset that they saw. So wouldn’t it be nice if there is a <em>universal</em> learner: one that, on any task, performs as well as any other learner? If so, we would get a ‘free lunch’ since we wouldn’t need to design, for each task, a learner specific to this task, but could always just blindly use the universal learner instead.</p>
+<p>For a given domain set $X$ and label set $Y$, there are many learners: they can have different hypothesis classes (i.e., their inductive bias differes), and even if they agree on that, they can still generalize to different prediction rules from the very same dataset that they saw. So wouldn’t it be nice if there was a <em>universal</em> learner: one that, on any task, performs as well as any other learner? If so, we would get a ‘free lunch’ since we wouldn’t need to design, for each task, a learner specific to this task, but could always just blindly use the universal learner instead.</p>
 
 <p>At first sight we might hope for a positive answer: After all, there are universal Turing machines that can simulate any other Turing machine. So maybe we can build a universal learner that simulates other learners, collects their prediction rules, and aggregates those into a combined prediction rule, hoping for a <a href="https://en.wikipedia.org/wiki/Jury_theorem">wisdom of the crowd</a> effect. 
 But—as spoiled by the section title (sorry!)—the No-Free-Lunch theorem says that such a universal learner cannot exist. In other words, for every learner, there is a task on which it fails, even though another learner succeeds.<d-footnote>For a discussion of interpretations of the No-Free-Lunch theorem—connecting to the philosophical problem of induction—, see <d-cite key="Sterkenburg2021"></d-cite></d-footnote></p>
@@ -188,16 +718,16 @@ Both sit at opposite sides of a box, inside of which is a mystery system. Both h
 
 <p>We now wonder: what do these observations say about our mystery system? (We cannot dismiss the example as imaginary, because it is physically realizable according to quantum mechanics <d-cite key="Abramsky2015"></d-cite>.)</p>
 
-<p>Naturally, we would say that, at any given time, the system is in some state, $s$, and this state determines the outcomes of each of the measurements $a_1, a_2, b_1, b_2$ if they are performed on the system in this state. There is some probability distribution on the set of all states of the system, describing how likely it is to find the system in a given state (and of course this distribution is independent of whatever Alice and Bob do). So the measurements measure objective properties of the system, which obtain independently of which measurements we perform; and the distributions over the measurement outcomes come from the distribution over system states.</p>
+<p>Naturally, we would say that, at any given time, the system is in some state, $s$, and this state determines the outcomes of each of the measurements $a_1, a_2, b_1, b_2$ if they are performed on the system in this state. There is some probability distribution on the set of all states of the system, describing how likely it is to find the system in a given state (and of course this distribution is independent of whatever Alice and Bob do). So the measurements probe objective properties of the system, which obtain independently of which measurements we perform; and the distributions over the measurement outcomes come from the distribution over system states.</p>
 
 <p>But from our observations, we must conclude that our system cannot be of such a form! No probability measure on the state space of our system can give rise to the observed distributions on the measurements.</p>
 
-<p>We can say this more precisely with the ‘locally consistent but globally inconsistent’ terminology. We considered above four choices of measurements: 
+<p>We can say this more precisely in terms of ‘locally consistent but globally inconsistent’. Above, we considered four choices of measurements: 
 $C_1 = \lbrace a_1, b_1 \rbrace$, 
 $C_2 = \lbrace a_2, b_1 \rbrace$,
 $C_3 = \lbrace a_2, b_2 \rbrace$, and
 $C_4 = \lbrace a_1, b_2 \rbrace$.
-For each $C_i$, we got a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same <a href="https://en.wikipedia.org/wiki/Marginal_distribution">marginals</a> on their overlap $C_i \cap C_j$.
+For each $C_i$, we obtained a probability distribution $D_i$ on the measurements in $C_i$ (so $D_i$ is a probability measure on the set of the potential outcomes $\lbrace (0,0), (0,1), (1,0), (1,1) \rbrace$). One can check that these distributions are compatible in the sense that two distributions $D_i$ and $D_j$ have the same <a href="https://en.wikipedia.org/wiki/Marginal_distribution">marginals</a> on their overlap $C_i \cap C_j$.
 Thus, we have a <em>locally consistent</em> family $\lbrace D_i \rbrace$ of observation data.
 However, this family of data is not <em>globally consistent</em>, because there cannot be a distribution $D$ on all measurements $\lbrace a_1 , a_2 , b_1 , b_2 \rbrace$ such that each $D_i$ is a marginalization of $D$ (i.e., $D$ is the joint distribution).</p>
 
@@ -241,7 +771,7 @@ b_2
 \overset{\varphi_4}{\leftrightarrow}
 \neg a_1.\]
 
-<p>So if one of the events obtains, one of the remaining ones cannot obtain, so</p>
+<p>So if one of the four events obtains, then one of the remaining three cannot obtain, so</p>
 
 \[P(E_4) \leq 
 P( \bigcup_{i = 1}^3 E_i^c ) \leq
@@ -261,7 +791,7 @@ $\sum_{i = 1}^4 P (E_i) = 3.25$.</p>
   <p>quantum mechanics predicts correlations which exceed those which can be achieved by any classical mechanism. This is the content of Bell’s theorem […] and in many ways the starting point for the whole field of quantum information.</p>
 </blockquote>
 
-<p>So our system cannot be of the form we initially thought and <em>somehow</em> the properties of our system depend on the choice of measurements that we perform, i.e., the measurement context. How exactly is formalized with the sheaf-theoretic approach to contextuality. This goes as follows (e.g. <d-cite key="Abramsky2017"></d-cite>).</p>
+<p>So our system cannot be of the form we initially thought it was. Hence <em>somehow</em> the properties of our system depend on the choice of measurements that we perform, i.e., the measurement context. How exactly is formalized with the sheaf-theoretic approach to contextuality. This goes as follows (e.g. <d-cite key="Abramsky2017"></d-cite>).</p>
 
 <ul>
   <li>We have a set $X$ of <em>variables</em> (aka measurements, features, observations, etc.).</li>
@@ -423,15 +953,16 @@ L_P( A(S) ) \geq \epsilon
 
 <p>For compositionality, we have that $\rho^C_C$ is the identity function on $P_H(C)$, since it maps $A$ to the mapping $S \mapsto A(S) \restriction C = A(S)$. And if $C \subseteq D \subseteq E$, then $\rho^D_C \circ \rho^E_D = \rho^E_C$ because, for $A \in P_H(E)$ and $S \in (C \times Y)^*$, we have:</p>
 
-<p>\(\begin{aligned}
+\[\begin{aligned}
 \rho^D_C \circ \rho^E_D (A) (S) &amp;= 
 \rho^D_C \big(  [ S' \mapsto A(S') \restriction D ] \big) (S) \\ &amp; =
 [ S' \mapsto A(S') \restriction D ] (S) \restriction C \\ &amp;=
 ( A(S) \restriction D ) \restriction C \\ &amp;=
 A(S) \restriction C \\ &amp;=
 \rho^E_C (A) (S),
-\end{aligned}\)
-as needed.</p>
+\end{aligned}\]
+
+<p>as needed.</p>
 </details>
 
 <h2 id="contextuality-of-pac-learning">Contextuality of PAC-learning</h2>
@@ -461,7 +992,7 @@ Hence</p>
 
 <h3 id="local-consistency">Local consistency</h3>
 
-<p>How would locally consistent data look like? It is a family of PAC learners, one for each finite subsets $C$ of $X$,</p>
+<p>How would locally consistent data look like? It is a family of PAC learners, one for each finite subset $C$ of $X$,</p>
 
 \[\lbrace A_C \in P_H (C) : C \in \mathcal{C} \rbrace\]
 
@@ -593,11 +1124,11 @@ L_S ( h' ).
 \end{aligned}\]
 </details>
 
-<p>So we see that PAC-learnability really exhibits contextuality: we can have locally consistent learners covering the whole input space but which cannot be glued together to a single, globally consistent learner.</p>
+<p>So we see that PAC-learnability really exhibits contextuality: We can have locally consistent learners covering the whole input space, but they cannot be glued together to one globally consistent learner.</p>
 
 <h2 id="whats-next-cohomology-compactness-category">What’s next? Cohomology, Compactness, Category</h2>
 
-<p>The obvious next step is to apply the rich and general theory of sheaf-theoretic contextuality to the theory of machine learning! Specifically, the next step, like in <d-cite key="Abramsky2015"></d-cite> (especially section 5), is to understand the obstructions we face when wanting to extend a local section to a global one. Here, these are the obstructions that are at play in the No-Free-Lunch theorem when trying to extend a learner working on a local part of the input space to working on the whole input space. The tools of <em>cohomology</em> (specifically Čech cohomology) are used for this. But that’s for another occasion.</p>
+<p>The obvious next step is to apply the rich and general theory of sheaf-theoretic contextuality to the theory of machine learning! Specifically, the next step, as in <d-cite key="Abramsky2015"></d-cite> (especially section 5), is to understand the obstructions we face when wanting to extend a local section to a global one. Here, these are the obstructions that are at play in the No-Free-Lunch theorem when trying to extend a learner working on a local part of the input space to working on the whole input space. The tools of <em>cohomology</em> (specifically Čech cohomology) are used for this. But that’s for another occasion.</p>
 
 <p>A central theorem of logic is the <em>compactness</em> theorem: if every finite subset of a theory has a model, then the whole theory has a model. The contextuality that we have found here describes a sense in which learning is <em>not</em> compact: every finite subset of the input space has a PAC learner, but the whole input space does not have a PAC learner. This should be related to discussions about the (non-) compactness of learning (<d-cite key="Asilis2024"></d-cite>).</p>
 
@@ -605,11 +1136,11 @@ L_S ( h' ).
 
 <h2 id="conclusion">Conclusion</h2>
 
-<p>Sorry, this post got rather long. But let’s quickly recap what we’ve seen.</p>
+<p>So there are many directions to explore next, but, for now, let’s quickly recap what we’ve seen.</p>
 
 <p>We introduced statistical learning theory as the classic theory of machine learning, and we stated the No-Free-Lunch theorem saying that a universal learner cannot exist. Then we introduced sheaf-theoretic contextuality, aiming to apply it to statistical learning theory.</p>
 
-<p>We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space. We ended with some natural questions of where to go from here.</p>]]></content><author><name></name></author><category term="MachineLearning" /><category term="CategoryTheory" /><summary type="html"><![CDATA[How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf]]></summary></entry><entry><title type="html">Welcome!</title><link href="http://localhost:4000/blog/2024/welcome/" rel="alternate" type="text/html" title="Welcome!" /><published>2024-05-18T00:00:00+02:00</published><updated>2024-05-18T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/welcome</id><content type="html" xml:base="http://localhost:4000/blog/2024/welcome/"><![CDATA[<p>Hey there, and welcome to this blog! In this very first post, I figured I’d say a quick word about the <em>what &amp; why</em> of this blog, before writing the first post with actual content next.</p>
+<p>We defined the learner presheaf and provided a locally consistent family of sections/learners that cannot be globally consistent. This makes precise the starting idea of rethinking the No-Free-Lunch theorem: That we can have learners on the different parts of the input space that cannot be glued to a learner on the whole input space.</p>]]></content><author><name></name></author><category term="MachineLearning" /><category term="CategoryTheory" /><summary type="html"><![CDATA[How the impossibility of a universal learner can be seen as the non-existence of global sections of a 'learner' presheaf]]></summary></entry><entry><title type="html">Welcome!</title><link href="http://localhost:4000/blog/2024/welcome/" rel="alternate" type="text/html" title="Welcome!" /><published>2024-05-18T00:00:00+02:00</published><updated>2024-05-18T00:00:00+02:00</updated><id>http://localhost:4000/blog/2024/welcome</id><content type="html" xml:base="http://localhost:4000/blog/2024/welcome/"><![CDATA[<p>Hey there, and welcome to this blog! In this very first post, I figured I’d say a quick word about the <em>what &amp; why</em> of this blog, before writing the first post with actual content next.</p>
 
 <p>This blog, like many things, got started after having had a loose plan for a while, until some event provided the momentum to realize the plan. In this case, I was planning to start a blog for some time now, and the realizing event was updating my website. I used <a href="https://github.com/alshedivat/al-folio">this</a> beautiful template, which comes with great resources to host a blog.</p>
 
