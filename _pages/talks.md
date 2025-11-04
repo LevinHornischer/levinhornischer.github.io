@@ -8,8 +8,12 @@ nav_order: 3
 ---
 
 
-
-
+* [Kurt Gödel Award Ceremony](https://kurtgoedel.de/kurt-goedel-award-2025/) (University of Bamberg). A Stability Interpretation of
+Gödel. 5 December 2025.
+* Lecture series "AI in medicine" (LMU Munich). AI meets Philosophy: An Overview of
+Current Research. 2 December 2025.
+* [AI, Ethics and Society](https://eyyar.r.sp1-brevo.net/mk/mr/sh/1t6AVsd2XFnIGIUOC8enff8sNY8NI0/thHsQ1KLJC9n): Influence of AI Algorithms on Individual and Collective Memory (Bavarian Academy of Sciences and Humanities). Learning How to Vote With Principles. 29 October 2025.
+* [Computational Social Choice (COMSOC 2025)](https://www.ac.tuwien.ac.at/comsoc2025/). Learning How to Vote With Principles: Axiomatic Insights Into the Collective Decisions of Neural Networks (presented by Zoi Terzopoulou). 17–19 September 2025.
 * [Formal Epistemology Meets Philosophy of AI](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/formal_epistemology/index.html) (MCMP, LMU Munich). Explaining Neural Networks with Reasons. 5--6 July 2025.
 * [LMU Munich](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/hornischer_20250612/index.html), Munich Center for Mathematical Philosophy. Logic Colloquium. Universal analog computation. 12 June 2025.
 * [Epistemology and Theory of Machine Learning](https://www.mcmp.philosophie.uni-muenchen.de/events_this-_week/epistemology_2025/index.html) (MCMP, LMU Munich). Robustness and Trustworthiness in AI: A No-Go Result From Formal Epistemology. 30--31 May 2025.
