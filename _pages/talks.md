@@ -7,7 +7,7 @@ nav: true
 nav_order: 3
 ---
 
-
+* ``AIML-Symposium on Advanced Machine Learning'' at LMU Munich, Chair of Artificial Intelligence and Machine Learning. Explaining Neural Networks with Reasons. 17 December 2025.
 * [Kurt Gödel Award Ceremony](https://kurtgoedel.de/kurt-goedel-award-2025/) (University of Bamberg). A Stability Interpretation of
 Gödel. 5 December 2025.
 * Lecture series "AI in medicine" (LMU Munich). AI meets Philosophy: An Overview of

@@ -5,5 +5,5 @@ inline: true
 related_posts: false
 ---
 
-New prerint '[Universal Analog Computation: Fraïssé limits of dynamical systems](https://philpapers.org/rec/HORUAC)'.
+New preprint '[Universal Analog Computation: Fraïssé limits of dynamical systems](https://philpapers.org/rec/HORUAC)'.
  
