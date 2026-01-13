@@ -27,4 +27,6 @@ My [research](/publications/) and [teaching](/teaching/) is mostly on the mathem
 
 I'm also interested in related disciplines such as theoretical computer science, dynamical systems theory, mathematical logic, philosophical logic, philosophy of language, and epistemology.
 
+At the MCMP, I am part of the [philosophy of machine learning](https://www.philosophie.lmu.de/mcmp/en/research/philosophy-of-machine-learning/) group.
+
 Before coming to Munich, I was a postdoc at the [Institute for Logic, Language and Computation (ILLC)](https://www.illc.uva.nl/) at the [University of Amsterdam](https://www.uva.nl/en/home). There, I also obtained my PhD with a dissertation on [Dynamical Systems via Domains](https://eprints.illc.uva.nl/id/eprint/2196/1/DS-2021-10.text.pdf), supervised by [Michiel van Lambalgen](https://www.uva.nl/en/profile/l/a/m.vanlambalgen/m.vanlambalgen.html) (Amsterdam) and [Franz Berto](https://research-portal.st-andrews.ac.uk/en/persons/franz-berto) (St Andrews). The project was funded by my NWO grant on [Foundations of Analogical Thinking](https://www.nwo.nl/en/projects/322-20-017).
